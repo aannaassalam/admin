@@ -1,0 +1,131 @@
+table {
+  width: 99%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+
+table tr {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #70707030;
+  border-radius: 5px;
+}
+
+tr td:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+tr td:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+table thead tr th {
+  text-align: left;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+table thead tr th:last-child {
+  padding-left: 60px;
+}
+
+table tbody:before {
+  content: "@";
+  display: block;
+  line-height: 10px;
+  text-indent: -99999px;
+}
+
+table tbody tr {
+  margin-top: 10px;
+}
+
+table tbody tr td {
+  text-align: left;
+  font-size: 14px;
+  padding: 15px;
+}
+
+table tbody tr td:last-child {
+  width: 200px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #70707030;
+  padding: 5px 15px;
+  margin: 20px 10px 10px;
+}
+
+.pagination .page-count {
+  margin-right: 20px;
+}
+
+.pagination .page-count span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #707070;
+  margin-right: 15px;
+}
+
+.pagination .page-count .MuiInput-underline:after,
+.pagination .page-count .MuiInput-underline:before {
+  display: none;
+}
+
+.pagination .page-count .MuiSelect-select:focus {
+  background-color: transparent;
+}
+
+.pagination .page-count .MuiInputBase-input {
+  font-weight: 600;
+}
+
+.pagination .page-btns {
+  display: flex;
+  margin-right: 80px;
+  align-items: center;
+}
+
+.pagination .page-btns button {
+  background-color: #fff;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #707070;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination .page-btns button:disabled {
+  color: #70707095;
+}
+
+.pagination .page-btns button:disabled i {
+  filter: opacity(0.6);
+}
+
+.pagination .page-btns button i {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.pagination .page-btns button:last-child i {
+  margin: 0;
+  margin-left: 10px;
+}
+
+.pagination .page-btns span {
+  margin: 0 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: default;
+}

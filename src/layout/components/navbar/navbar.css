@@ -1,0 +1,40 @@
+.navbar {
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  background-color: #6497b1;
+}
+
+.navbar .logo {
+  height: 80%;
+  object-fit: contain;
+}
+
+.navbar .links {
+  /* color: #fff; */
+}
+
+.navbar .links a:first-child {
+  margin-left: 0;
+}
+
+.navbar .links a {
+  color: #fff;
+  margin: 0 20px;
+  font-weight: 500;
+}
+
+.navbar .links a:last-child {
+  margin-right: 0;
+}
+
+.navbar .logout {
+  color: #fff;
+  background-color: #005783;
+}
+
+.navbar .logout:hover {
+  background-color: #005783;
+}

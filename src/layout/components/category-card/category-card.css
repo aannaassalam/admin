@@ -1,0 +1,54 @@
+.categoryCard {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 30px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.categoryCard img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.categoryCard h4 {
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.categoryCard .action-btns {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: auto;
+}
+
+.categoryCard .action-btns button {
+  border-radius: 50%;
+  border: 2px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 0;
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  background-color: #f17e9a;
+}
+
+.categoryCard .action-btns button:first-child {
+  background-color: #6dd3b6;
+}

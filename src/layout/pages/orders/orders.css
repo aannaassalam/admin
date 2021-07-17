@@ -1,0 +1,69 @@
+.orders {
+  padding: 40px 60px;
+}
+
+.orders .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.orders .title .left {
+  display: flex;
+  align-items: center;
+}
+
+.orders .title .left img {
+  height: 75px;
+  object-fit: contain;
+}
+
+.orders .title .left h4 {
+  font-size: 30px;
+  margin-left: 30px;
+}
+
+.orders .order-btns {
+  margin-top: 20px;
+}
+
+.orders .order-btns button {
+  margin-right: 20px;
+  text-transform: capitalize !important;
+}
+
+.orders .table.order {
+  margin-top: 10px;
+}
+
+.orders .table.order .warning {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.modal.orders .body {
+  max-height: 58vh;
+  overflow-y: scroll;
+}
+
+.modal.orders .body .row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.modal.orders .body .row p {
+  width: 50%;
+  text-transform: capitalize;
+  font-size: 15px;
+}
+
+.modal.orders .body .row p:first-child {
+  font-weight: 500;
+}

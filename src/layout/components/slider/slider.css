@@ -1,0 +1,69 @@
+.dynamic-slider {
+  width: 95%;
+  margin: 0 auto 20px;
+}
+.dynamic-slider .heading {
+  padding: 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dynamic-slider .heading a {
+  text-decoration: none;
+  color: green;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.dynamic-slider .heading h1 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.dynamic-slider .slick-prev,
+.dynamic-slider .slick-next {
+  position: absolute;
+  display: block;
+  left: -30px;
+  height: 20px;
+  width: 30px;
+  cursor: pointer;
+  background: #fff;
+  color: #000;
+  top: 50%;
+  margin-top: -10px;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+.dynamic-slider .slick-next {
+  left: 100%;
+}
+
+.dynamic-slider .slick-prev:before,
+.dynamic-slider .slick-next:before {
+  content: "\f053";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 700;
+  font-size: 30px;
+  color: #000;
+}
+
+.dynamic-slider .slick-next:before {
+  content: "\f054";
+}
+
+@media (max-width: 768px) {
+  .dynamic-slider {
+    width: 95%;
+  }
+  .dynamic-slider .heading a {
+    font-size: 16px;
+  }
+}

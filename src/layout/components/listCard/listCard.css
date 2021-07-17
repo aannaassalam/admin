@@ -1,0 +1,101 @@
+.listCard {
+  height: 70px;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+}
+
+.listCard:last-child {
+  margin-bottom: 0;
+}
+
+.listCard span {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f17e9a;
+  color: #fff;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.listCard img {
+  height: 80%;
+  width: 80px;
+  object-fit: contain;
+}
+
+.listCard .genre {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  text-transform: capitalize;
+}
+
+.listCard .genre h4 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.listCard .genre h5 {
+  color: #707070;
+}
+
+.listCard .price {
+  width: 150px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.listCard .price .rating {
+  font-size: 12px;
+  background-color: #333;
+  color: #fff;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  padding: 1px;
+}
+
+.listCard .price .rating i {
+  margin-left: 5px;
+  color: gold;
+}
+
+.listCard .price .bottom {
+  display: flex;
+  margin-top: 5px;
+}
+
+.listCard .price .bottom p {
+  margin: 0 10px;
+}
+
+.listCard .price .bottom p:first-child {
+  margin-left: 0;
+  font-weight: 500;
+}
+
+.listCard .price .bottom p.striked {
+  text-decoration: line-through;
+}
+
+.listCard .price .bottom p.discount {
+  color: #ff0000;
+  font-weight: 500;
+}

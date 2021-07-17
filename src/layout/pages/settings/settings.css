@@ -1,0 +1,32 @@
+.settings {
+  padding: 40px 60px;
+}
+
+.settings .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.settings .title .left {
+  display: flex;
+  align-items: center;
+}
+
+.settings .title .left img {
+  height: 75px;
+  object-fit: contain;
+}
+
+.settings .title .left h4 {
+  font-size: 30px;
+  margin-left: 30px;
+}
+
+.backdrop {
+  z-index: 9999 !important;
+  color: #fff;
+}

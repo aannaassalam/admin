@@ -1,0 +1,40 @@
+.login_container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_container .login {
+  width: 400px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+  padding: 50px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.login_container .login img {
+  width: 180px;
+  height: 80px;
+  object-fit: contain;
+  /* margin-bottom: 80px; */
+}
+
+.login_container .login .email,
+.login_container .login .password {
+  margin-bottom: 15px;
+}
+
+.login_container .login .last {
+  width: 100%;
+}
+
+.login_container .login .login_button {
+  margin-bottom: 20px;
+}

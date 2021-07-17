@@ -1,0 +1,66 @@
+.sliders .heading {
+  padding: 20px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sliders .heading h2 {
+  font-size: 25px;
+}
+
+.sliders .heading button {
+  letter-spacing: 1px;
+}
+
+.sliderModal {
+  width: 40vw;
+  min-height: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  outline: none;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.sliderModal .head {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.sliderModal .head h4 {
+  font-size: 20px;
+}
+
+.sliderModal .head i {
+  margin-left: auto;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sliderModal .body {
+  padding: 20px 10px;
+}
+
+.sliderModal .body .selectedProducts {
+  margin: 20px 0;
+  padding: 5px 5px;
+  height: 280px;
+  overflow-y: auto;
+}
+
+.sliderModal .footer button {
+  margin-left: 15px;
+}
+
+.sliderModal .footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}

@@ -1,0 +1,114 @@
+.categories {
+  padding: 40px 60px;
+  overflow-x: hidden;
+}
+
+.categories .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+.categories .title .left {
+  display: flex;
+  align-items: center;
+}
+
+.categories .title .left .back-btn {
+  min-width: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-right: 25px;
+  color: #fff;
+  background-color: #fc5185;
+  border: 3px solid #fff;
+  margin-left: -70px;
+  transition: margin 0.3s;
+}
+
+.categories .title .left .back-btn.active {
+  margin-left: 0;
+  transition: margin 0.3s;
+}
+
+.categories .title .left .back-btn i {
+  margin: 0;
+}
+
+.categories .title .left img {
+  height: 80px;
+  object-fit: contain;
+}
+
+.categories .title .left h4 {
+  font-size: 28px;
+  margin-left: 30px;
+}
+
+.categories .title button i {
+  margin-right: 10px;
+}
+
+.categories .body {
+  width: 200%;
+  display: flex;
+  transform: translateX(0);
+  transition: transform 0.7s;
+  overflow: hidden;
+}
+
+.categories .body.slideIn {
+  transform: translateX(-50%);
+  transition: transform 0.7s;
+}
+
+.categories .body .section {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 10px 0;
+}
+
+.categories .body .section:last-child {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.categories .body .section.active {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.modal.category .head {
+  padding-bottom: 10px;
+}
+
+.modal.category .body {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal.category .body label.picker {
+  margin-bottom: 20px;
+}
+
+.modal.category .body label.picker.no-background {
+  background-color: #fff;
+  border: none;
+}
+
+.modal.category .body label.picker img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
