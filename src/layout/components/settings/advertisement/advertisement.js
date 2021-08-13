@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "./advertisement.css";
-import { Button, Modal } from "@material-ui/core";
+import { Button, Modal, TextField } from "@material-ui/core";
 import firebase from "firebase";
 import toaster from "toasted-notes";
 import Loader from "../../loader/loader";
@@ -12,9 +12,12 @@ export default function Advertisement({ uploading, setUploading }) {
   const [adSection, setAdSection] = useState([]);
   const [removedImages, setRemovedImages] = useState([]);
   const [imgErr, setImgErr] = useState("");
-  const [editSlider, setEditSlider] = useState(false);
+  // const [editSlider, setEditSlider] = useState(false);
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(true);
+  const [imageModal, setImageModal] = useState(false);
+  const [newImage, setNewImage] = useState("");
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     init();
@@ -27,6 +30,7 @@ export default function Advertisement({ uploading, setUploading }) {
       .get()
       .then((snap) =>
         snap.forEach((doc) => {
+          // setLoading(false);
           setAdSection(doc.data().addSection);
           setEditAdSection(doc.data().addSection);
           setId(doc.id);
@@ -45,7 +49,7 @@ export default function Advertisement({ uploading, setUploading }) {
   const handleImagePicker = (e) => {
     var img = e.target.files[0];
     if (img && img.size < 350000) {
-      setEditAdSection([...editAdSection, img]);
+      setNewImage(img);
       setImgErr("");
     } else {
       setImgErr("Image Size greater than 350kb are not accepted");
@@ -65,13 +69,21 @@ export default function Advertisement({ uploading, setUploading }) {
     return url;
   };
 
+  const addImages = () => {
+    setEditAdSection([...editAdSection, { image: newImage, link: link }]);
+    setImageModal(false);
+    setNewImage("");
+    setLink("");
+  };
+
   const updateImages = async () => {
     setUploading(true);
     var images = [];
     for (let i = 0; i < editAdSection.length; i++) {
-      if (editAdSection[i].name) {
-        var url = await handleImageUpload(editAdSection[i], "addSection");
-        images.push(url);
+      if (editAdSection[i].image.name) {
+        var url = await handleImageUpload(editAdSection[i].image, "addSection");
+        images.push({ image: url, link: editAdSection[i].link });
+        // images[i].image = url;
       } else {
         images.push(editAdSection[i]);
       }
@@ -84,9 +96,11 @@ export default function Advertisement({ uploading, setUploading }) {
         addSection: images,
       })
       .then(() => {
-        removedImages.forEach((img) =>
-          firebase.storage().refFromURL(img).delete()
-        );
+        removedImages.forEach((img) => {
+          if (!img.name) {
+            firebase.storage().refFromURL(img).delete();
+          }
+        });
         init();
         setUploading(false);
         setRemovedImages([]);
@@ -103,7 +117,7 @@ export default function Advertisement({ uploading, setUploading }) {
     var images = editAdSection;
     var removedimg = images.splice(index, 1);
     setEditAdSection(images);
-    setRemovedImages([...removedImages, removedimg[0]]);
+    setRemovedImages([...removedImages, removedimg[0].image]);
   };
   return (
     <div className="advertisement">
@@ -124,8 +138,12 @@ export default function Advertisement({ uploading, setUploading }) {
           <div className="slider">
             <Slider {...setting}>
               {adSection.map((item, index) => (
-                <div className="slide" key={index}>
-                  <img src={item} alt="" />
+                <div
+                  className="slide"
+                  key={index}
+                  onClick={() => window.open(item.link)}
+                >
+                  <img src={item.image} alt="" />
                 </div>
               ))}
             </Slider>
@@ -146,10 +164,10 @@ export default function Advertisement({ uploading, setUploading }) {
                 <Slider {...setting} className="adSlider">
                   {editAdSection.map((item, index) => (
                     <div className="addSlide" key={index}>
-                      {item.length > 0 ? (
-                        <img src={item} alt="" />
+                      {!item.image.name ? (
+                        <img src={item.image} alt="" />
                       ) : (
-                        <img src={URL.createObjectURL(item)} alt="" />
+                        <img src={URL.createObjectURL(item.image)} alt="" />
                       )}
                       <span
                         className="cross"
@@ -157,19 +175,13 @@ export default function Advertisement({ uploading, setUploading }) {
                       >
                         <i className="fas fa-times"></i>
                       </span>
+                      <p style={{ margin: "15px 0 30px" }}>{item.link}</p>
                     </div>
                   ))}
-                  <label htmlFor="input-picker">
-                    <input
-                      type="file"
-                      id="input-picker"
-                      onChange={handleImagePicker}
-                      accept="image/*"
-                    />
+                  <label onClick={() => setImageModal(true)}>
                     <i className="fas fa-plus"></i>
                   </label>
                 </Slider>
-                <p className="error">{imgErr}</p>
               </div>
               <div className="footer">
                 <Button
@@ -187,6 +199,51 @@ export default function Advertisement({ uploading, setUploading }) {
                   disabled={uploading}
                 >
                   Update
+                </Button>
+              </div>
+            </div>
+          </Modal>
+          <Modal open={imageModal} onClose={() => setImageModal(false)}>
+            <div className="new">
+              <label className="input-picker" htmlFor="input-picker">
+                {newImage.name ? (
+                  <img src={URL.createObjectURL(newImage)} alt="" />
+                ) : (
+                  <i className="fas fa-plus"></i>
+                )}
+                <input
+                  type="file"
+                  id="input-picker"
+                  onChange={handleImagePicker}
+                  accept="image/*"
+                />
+              </label>
+              <TextField
+                variant="outlined"
+                size="small"
+                value={link}
+                label="Link"
+                onChange={(e) => setLink(e.target.value)}
+                fullWidth
+              />
+              <p className="error">{imgErr}</p>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  variant="outlined"
+                  type="small"
+                  color="primary"
+                  onClick={() => setImageModal(false)}
+                  style={{ marginRight: 20 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  type="small"
+                  color="primary"
+                  onClick={addImages}
+                >
+                  Add
                 </Button>
               </div>
             </div>

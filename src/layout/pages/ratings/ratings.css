@@ -130,10 +130,10 @@
 }
 
 .modal .body .user-detail .name_rating {
-  width: 75%;
+  width: 100%;
 }
 
-.modal .textarea {
+.modal.category .textarea {
   margin-bottom: 15px;
 }
 

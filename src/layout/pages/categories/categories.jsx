@@ -112,12 +112,12 @@ export function Categories() {
             init();
             setSubCategories(
               active
-                ? categories[categoryIndex].subcategories
-                : categories[0].subcategories
+                ? categories[categoryIndex]?.subcategories
+                : categories[0]?.subcategories
             );
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err.message);
             setUploading(false);
           });
       })
@@ -182,12 +182,15 @@ export function Categories() {
           setOpen(false);
           init();
           setSubCategories(
-            active
-              ? categories[categoryIndex].subcategories
-              : categories[0].subcategories
+            categories.length > 0
+              ? active
+                ? categories[categoryIndex].subcategories
+                : categories[0].subcategories
+              : []
           );
         })
         .catch((err) => {
+          console.log(err.message);
           toaster.notify("Something went wrong, Please try again!");
           setUploading(false);
           setOpen(false);
@@ -233,7 +236,7 @@ export function Categories() {
             .refFromURL(activeCategory.subcategories[subIndex].image)
             .delete()
             .catch((err) => {
-              console.log(err);
+              console.log(err.message);
               setUploading(false);
             });
         } else {
@@ -242,7 +245,7 @@ export function Categories() {
             .refFromURL(activeCategory.image)
             .delete()
             .catch((err) => {
-              console.log(err);
+              console.log(err.message);
               setUploading(false);
             });
         }
@@ -357,6 +360,7 @@ export function Categories() {
                     setSubIndex(index);
                   }}
                   handleDelete={() => handleDelete(item.name)}
+                  uploading={uploading}
                 />
               ))}
             </div>

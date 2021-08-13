@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router";
-import { Redirect, useLocation } from "react-router-dom";
+import { Prompt, Redirect, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./layout/components/navbar/navbar";
 import { Categories } from "./layout/pages/categories/categories";
@@ -12,6 +12,8 @@ import Settings from "./layout/pages/settings/settings";
 import firebase from "firebase";
 import { useEffect, useState } from "react";
 import Loader from "./layout/components/loader/loader";
+import Alert from "./layout/pages/alert/alert";
+import Users from "./layout/pages/users/users";
 
 function App() {
   const location = useLocation();
@@ -49,7 +51,9 @@ function App() {
         location.pathname === "/settings" ||
         location.pathname === "/categories" ||
         location.pathname === "/orders" ||
-        location.pathname === "/ratings") ? (
+        location.pathname === "/ratings" ||
+        location.pathname === "/alerts" ||
+        location.pathname === "/users") ? (
         <Navbar />
       ) : null}
 
@@ -104,6 +108,20 @@ function App() {
             path="/ratings"
             render={(props) =>
               user ? <Ratings {...props} /> : <Redirect to="/" />
+            }
+          />
+          <Route
+            exact
+            path="/alerts"
+            render={(props) =>
+              user ? <Alert {...props} /> : <Redirect to="/" />
+            }
+          />
+          <Route
+            exact
+            path="/users"
+            render={(props) =>
+              user ? <Users {...props} /> : <Redirect to="/" />
             }
           />
         </Switch>

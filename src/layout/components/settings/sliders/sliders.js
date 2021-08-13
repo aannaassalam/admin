@@ -154,13 +154,13 @@ function Sliders({ uploading, setUploading }) {
                 ></i>
               </div>
               <div className="body">
-                <TextField
+                {/* <TextField
                   variant="outlined"
                   size="small"
                   label="Title"
                   fullWidth
                   style={{ marginBottom: 15 }}
-                />
+                /> */}
 
                 <Select
                   options={products.filter(

@@ -57,6 +57,7 @@ function Login() {
           <TextField
             variant="outlined"
             className="email"
+            type="password"
             size="small"
             label="Password"
             value={password}
@@ -73,9 +74,6 @@ function Login() {
             onClick={handleLogin}
           >
             Login
-          </Button>
-          <Button variant="text" color="primary" fullWidth>
-            Forgot Password?
           </Button>
         </div>
       </div>

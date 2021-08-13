@@ -27,6 +27,12 @@ export default function Navbar(props) {
         <a href="/settings" className="link">
           Settings
         </a>
+        <a href="/alerts" className="link">
+          Alerts
+        </a>
+        <a href="/users" className="link">
+          Users
+        </a>
       </div>
       <Button
         variant="contained"

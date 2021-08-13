@@ -1,0 +1,29 @@
+.users {
+  padding: 40px 60px;
+  width: 100%;
+  min-height: 91.5vh;
+}
+
+.users .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.users .title .left {
+  display: flex;
+  align-items: center;
+}
+
+.users .title .left img {
+  height: 80px;
+  object-fit: contain;
+}
+
+.users .title .left h4 {
+  font-size: 28px;
+  margin-left: 30px;
+}

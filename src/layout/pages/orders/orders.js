@@ -16,6 +16,7 @@ import ListCard from "../../components/listCard/listCard";
 import Loader from "../../components/loader/loader";
 import toaster from "toasted-notes";
 import axios from "axios";
+import { getDefaultNormalizer } from "@testing-library/react";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -39,103 +40,110 @@ function Orders() {
       .collection("orders")
       .get()
       .then(async (snap) => {
-        var orders = [];
-        snap.forEach((doc) => {
-          var order = doc.data();
-          order.id = doc.id;
-          orders.push(order);
-        });
-
-        var orders2 = [];
-
-        for (const order of orders) {
-          console.log(order);
-          if (order.awb_number.length > 0) {
-            const config = {
-              headers: {
-                Authorization:
-                  "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE2MTA0NTMsImlzcyI6Imh0dHBzOi8vYXBpdjIuc2hpcHJvY2tldC5pbi92MS9leHRlcm5hbC9hdXRoL2xvZ2luIiwiaWF0IjoxNjI1NTkzMDYzLCJleHAiOjE2MjY0NTcwNjMsIm5iZiI6MTYyNTU5MzA2MywianRpIjoiY3hDUktISzBicnVlNndTYSJ9.hJA9mVTqq6tVNoNiBgrjg8ZSQdsT7MHRWN38Y8ARegY",
-              },
-            };
-            await axios
-              .get(
-                `https://apiv2.shiprocket.in/v1/external/courier/track/awb/${order.awb_number}`,
-                config
-              )
-              .then((res) => {
-                console.log(res.data);
-                if (
-                  !order.status.includes(res.data.tracking_data.shipment_status)
-                ) {
-                  order.status.push(res.data.tracking_data.shipment_status);
-                  firebase
-                    .firestore()
-                    .collection("orders")
-                    .doc(order.id)
-                    .update({
-                      status: order.status,
-                    })
-                    .then(() => {
-                      orders2.push(order);
-                    })
-                    .catch((err) => console.log(err));
-                } else {
-                  console.log("here");
-                  orders2.push(order);
-                }
-              })
-              .catch((err) => console.log(err));
-          } else {
-            orders2.push(order);
-          }
-        }
-
-        var process_orders = [];
-        var transit_orders = [];
-        var delivered_orders = [];
-        var cancel_orders = [];
-        console.log(snap.size);
-        console.log(orders.length);
-        if (snap.size === orders2.length) {
-          orders2.forEach((item, index) => {
-            console.log(item.status);
-            if (
-              item.status.includes(0) &&
-              !item.status.includes(18) &&
-              !item.status.includes(7) &&
-              !item.status.includes(8)
-            ) {
-              process_orders.push(item);
-            } else if (
-              item.status.includes(18) &&
-              !item.status.includes(7) &&
-              !item.status.includes(8)
-            ) {
-              transit_orders.push(item);
-            } else if (item.status.includes(7) && !item.status.includes(8)) {
-              delivered_orders.push(item);
-            } else {
-              cancel_orders.push(item);
-            }
-
-            if (index === orders.length - 1) {
-              var obj = {
-                all: orders2,
-                process: process_orders,
-                transit: transit_orders,
-                delivered: delivered_orders,
-                cancel: cancel_orders,
-              };
-              setOrders(orders2);
-              setSortedOrders(obj);
-              setLoading(false);
-            }
+        if (snap.size > 0) {
+          var orders = [];
+          snap.forEach((doc) => {
+            var order = doc.data();
+            order.id = doc.id;
+            orders.push(order);
           });
+
+          var orders2 = [];
+          var token = "";
+          await axios
+            .post("https://apiv2.shiprocket.in/v1/external/auth/login", {
+              email: "anasalam027@gmail.com",
+              password: "anasalam786",
+            })
+            .then((resp) => {
+              token = resp.data.token;
+            })
+            .catch((err) => console.log(err.message));
+
+          for (const order of orders) {
+            if (order.awb_number.length > 0) {
+              const config = {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              };
+              await axios
+                .get(
+                  `https://apiv2.shiprocket.in/v1/external/courier/track/awb/${order.awb_number}`,
+                  config
+                )
+                .then((res) => {
+                  if (
+                    !order.status.includes(
+                      res.data.tracking_data.shipment_status
+                    )
+                  ) {
+                    order.status.push(res.data.tracking_data.shipment_status);
+                    firebase
+                      .firestore()
+                      .collection("orders")
+                      .doc(order.id)
+                      .update({
+                        status: order.status,
+                      })
+                      .then(() => {
+                        orders2.push(order);
+                      })
+                      .catch((err) => console.log(err.message));
+                  } else {
+                    orders2.push(order);
+                  }
+                })
+                .catch((err) => console.log(err.message));
+            } else {
+              orders2.push(order);
+            }
+          }
+
+          var process_orders = [];
+          var transit_orders = [];
+          var delivered_orders = [];
+          var cancel_orders = [];
+          if (snap.size === orders2.length) {
+            orders2.forEach((item, index) => {
+              if (
+                item.status.includes(0) &&
+                !item.status.includes(18) &&
+                !item.status.includes(7) &&
+                !item.status.includes(8)
+              ) {
+                process_orders.push(item);
+              } else if (
+                item.status.includes(18) &&
+                !item.status.includes(7) &&
+                !item.status.includes(8)
+              ) {
+                transit_orders.push(item);
+              } else if (item.status.includes(7) && !item.status.includes(8)) {
+                delivered_orders.push(item);
+              } else {
+                cancel_orders.push(item);
+              }
+
+              if (index === orders.length - 1) {
+                var obj = {
+                  all: orders2,
+                  process: process_orders,
+                  transit: transit_orders,
+                  delivered: delivered_orders,
+                  cancel: cancel_orders,
+                };
+                setOrders(orders2);
+                setSortedOrders(obj);
+                setLoading(false);
+              }
+            });
+          }
+        } else {
+          setLoading(false);
         }
       });
   };
-
-  console.log(sortedOrders);
 
   const columns = [
     {
@@ -168,9 +176,7 @@ function Orders() {
       Header: "User",
       Cell: (props) => (
         <div className="table-box">
-          <p className="upper">
-            {props.row.original.firstName + " " + props.row.original.lastName}
-          </p>
+          <p className="upper">{props.row.original.name}</p>
           <p className="upper">{props.row.original.number}</p>
         </div>
       ),
@@ -339,7 +345,7 @@ function Orders() {
             </Button>
           </div>
           <div className="table order">
-            {sortedOrders[tab].length > 0 ? (
+            {sortedOrders[tab]?.length > 0 ? (
               <Table columns={columns} data={sortedOrders[tab]} />
             ) : (
               <h3 className="warning">No Orders available.</h3>
@@ -358,6 +364,7 @@ function Orders() {
                       productID={product.id}
                       cartQuantity={product.cartQuantity}
                       key={product.id}
+                      variation={product.variation}
                       noCross
                     />
                   ))}
@@ -385,9 +392,7 @@ function Orders() {
                 </div>
                 <div className="row">
                   <p>Name: </p>
-                  <p>
-                    {selectedOrder.firstName} {selectedOrder.lastName}
-                  </p>
+                  <p>{selectedOrder.name}</p>
                 </div>
                 <div className="row">
                   <p>Phone number: </p>
@@ -401,13 +406,15 @@ function Orders() {
                   </p>
                 </div>
                 <div className="row">
-                  <p>Location: </p>
-                  <p>{selectedOrder.location}</p>
-                </div>
-                <div className="row">
                   <p>Payment: </p>
                   <p>{selectedOrder.payment}</p>
                 </div>
+                {selectedOrder.razorpay_id && (
+                  <div className="row">
+                    <p>Razorpay ID: </p>
+                    <p>{selectedOrder.razorpay_id}</p>
+                  </div>
+                )}
                 <div className="row">
                   <p>Items: </p>
                   <p>
@@ -455,6 +462,7 @@ function Orders() {
                 <TextField
                   label="AWB number"
                   variant="outlined"
+                  type="number"
                   size="small"
                   value={awb}
                   onChange={(e) => setAwb(e.target.value)}

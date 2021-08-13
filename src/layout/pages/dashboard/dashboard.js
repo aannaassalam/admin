@@ -62,8 +62,8 @@ function Dashboard() {
             var actCategory = "";
             snap.forEach((doc) => {
               setCategories(doc.data().categories);
-              setActiveCategory(doc.data().categories[0].name);
-              actCategory = doc.data().categories[0].name;
+              setActiveCategory(doc.data().categories[0]?.name);
+              actCategory = doc.data().categories[0]?.name;
             });
             firebase
               .firestore()
@@ -108,8 +108,8 @@ function Dashboard() {
                       .then((snap) => {
                         var sales = 0;
                         snap.docChanges().forEach((change) => {
-                          if (change.doc.data().status !== 2) {
-                            sales += change.doc.data().total;
+                          if (change.doc.data().status?.includes(7)) {
+                            sales += change.doc.data()?.total;
                           }
                         });
                         setSales(sales);
@@ -127,7 +127,6 @@ function Dashboard() {
     var series = [];
     products.forEach((product) => {
       if (product.category === category) {
-        console.log(product.category);
         categories2.push(product.title);
         series.push(product.sold);
       }

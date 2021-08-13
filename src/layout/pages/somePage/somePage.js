@@ -54,7 +54,6 @@ function Table({ columns, data }) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => {
-                console.log(column.getSortByToggleProps());
                 // Add the sorting props to control sorting. For this example
                 // we can add them into the header props
                 return (

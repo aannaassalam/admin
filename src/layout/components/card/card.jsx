@@ -20,7 +20,14 @@ export default function Card({ product, selecting }) {
       });
   }, [product]);
 
-  const discount = parseInt(((item.cp - item.sp) / item.cp) * 100);
+  const discount =
+    item.variations?.length > 0
+      ? parseInt(
+          ((item.variations[0].usual - item.variations[0].listing) /
+            item.variations[0].usual) *
+            100
+        )
+      : 0;
 
   return (
     <>
@@ -40,8 +47,8 @@ export default function Card({ product, selecting }) {
               <p>{item.category}</p>
             </div>
             <div className="pricing">
-              <span className="price">₹{item.sp}</span>
-              <span>₹{item.cp}</span>
+              <span className="price">₹{item.variations[0].listing}</span>
+              <span>₹{item.variations[0].usual}</span>
               <span>{discount}% off</span>
             </div>
           </div>

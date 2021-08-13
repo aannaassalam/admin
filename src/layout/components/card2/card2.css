@@ -1,6 +1,6 @@
 .card2 {
   width: 200px;
-  height: 200px;
+  min-height: 200px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -61,7 +61,41 @@
 .card2.no_width .bottom button {
   border-color: #f17e9a;
   color: #f17e9a;
+}
+
+.card2.no_width .bottom button:first-of-type {
   margin-top: auto;
+}
+
+.card2 .stars {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card2 .stars span {
+  border-radius: 10px;
+  min-width: 35px;
+  padding: 0 5px 2px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card2 .stars span i {
+  font-size: 12px;
+  color: gold;
+  margin-left: 2px;
+}
+
+.card2 .stars p {
+  margin-top: -3px;
+  margin-left: 5px;
+  color: #707070;
 }
 
 .card2 .img {

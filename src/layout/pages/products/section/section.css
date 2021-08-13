@@ -1,0 +1,341 @@
+.section {
+  padding: 40px 60px;
+  width: 100%;
+  min-height: 91.5vh;
+}
+
+.section .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.section .title .left {
+  display: flex;
+  align-items: center;
+}
+
+.section .title .left .back-btn {
+  min-width: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-right: 25px;
+  color: #fff;
+  background-color: #fc5185;
+  border: 3px solid #fff;
+}
+
+.section .title .left .back-btn i {
+  margin: 0;
+}
+
+.section .title .left img {
+  height: 80px;
+  object-fit: contain;
+}
+
+.section .title .left h4 {
+  font-size: 28px;
+  margin-left: 30px;
+}
+
+.section .title button i {
+  margin-right: 10px;
+}
+
+.table {
+  margin-top: 40px;
+  overflow-x: auto;
+}
+
+.table img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.table .table-box {
+  display: inline-block;
+  align-self: center;
+}
+
+.table .table-box .upper {
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 5px;
+}
+
+.table .table-box .status {
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 5px;
+  color: #f17e9a;
+}
+
+.table .table-box .status.active {
+  color: #6dd3b6;
+}
+
+.table .table-box .status i {
+  margin-right: 5px;
+}
+
+.table .table-box .lower {
+  font-weight: 600;
+  color: #707070;
+  text-transform: capitalize;
+  font-size: 13px;
+}
+
+.table button.options-btn {
+  color: #59b3ff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.table button.options-btn img {
+  width: 20px;
+  margin-right: 5px;
+}
+
+.table img.table-option {
+  margin-left: 20px;
+  width: 25px;
+  cursor: pointer;
+}
+
+.table .actions i.fa-pen {
+  color: #1885f2;
+  cursor: pointer;
+}
+
+.table .actions i.fa-trash-alt {
+  color: #f17e9a;
+  cursor: pointer;
+}
+
+.modal {
+  width: 40vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  outline: none;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.modal .head {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.modal .head h4 {
+  font-size: 20px;
+}
+
+.modal .head i {
+  margin-left: auto;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal .body {
+  padding: 20px;
+}
+
+.modal .body .select {
+  margin-bottom: 20px;
+}
+
+.MuiMenuItem-root,
+.MuiSelect-select {
+  text-transform: capitalize;
+  font-weight: 500;
+  /* padding: 10px; */
+}
+
+.modal .body .input:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.modal .body .no-padding-right {
+  padding-right: 0;
+}
+
+.modal .body .input.textarea textarea {
+  height: 4rem !important;
+}
+
+.modal .body .variation,
+.modal .body .adder {
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  margin: 0 5px;
+  padding: 10px;
+}
+
+.modal .body .variation .cross {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f17e9a;
+  color: #fff;
+  font-size: 14px;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  cursor: pointer;
+}
+
+.modal .body .lastStep .images {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.modal .body label.picker {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dedede;
+  border: 1px solid #99999950;
+  border-radius: 10px;
+}
+
+.modal .body label.picker input {
+  display: none;
+}
+
+.modal .body .lastStep .images .image {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #99999950;
+  position: relative;
+}
+
+.modal .body .lastStep .images .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal .body .lastStep .images .image span {
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #f17e9a;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.modal .body .lastStep p.imgErr {
+  font-size: 14px;
+  text-align: left;
+  color: #f17e9a;
+  margin-top: 10px;
+}
+
+.modal .body .showcase-section {
+  display: flex;
+}
+
+.modal .body .showcase-section .showcase,
+.modal .body .showcase-section .youtube {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+
+.modal .body .showcase-section h3 {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal .body .showcase-section div label.pix {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #dedede;
+  border: 1px solid #99999950;
+  border-radius: 10px;
+  margin: 0 auto 15px;
+}
+
+.modal .body .showcase-section div label.pix input {
+  display: none;
+}
+
+.modal .body .showcase-section div label.pix img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.modal .footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 15px;
+  border-top: 1px solid #ccc;
+}
+
+.modal .footer button {
+  margin-left: 15px;
+}

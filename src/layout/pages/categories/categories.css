@@ -73,6 +73,7 @@
 }
 
 .categories .body .section {
+  all: unset;
   width: 100%;
   display: flex;
   flex-wrap: wrap;

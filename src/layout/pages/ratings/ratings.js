@@ -35,6 +35,7 @@ function Ratings() {
   const [imgErr, setImgErr] = useState("");
   const [current, setCurrent] = useState("");
   const [product_images, setProduct_images] = useState([]);
+  const [ratingImages, setRatingImages] = useState([]);
 
   useEffect(() => {
     init();
@@ -59,18 +60,18 @@ function Ratings() {
       });
   };
 
-  const handleImagePicker = (e) => {
-    var arr = e.target.files[0];
-    if (arr.size < 350000) {
-      setImage(arr);
-      setImgErr("");
-    } else {
-      setImgErr("Image size greater than 350kb are not accepted");
-      setTimeout(() => {
-        setImgErr("");
-      }, 4000);
-    }
-  };
+  // const handleImagePicker = (e) => {
+  //   var arr = e.target.files[0];
+  //   if (arr.size < 350000) {
+  //     setImage(arr);
+  //     setImgErr("");
+  //   } else {
+  //     setImgErr("Image size greater than 350kb are not accepted");
+  //     setTimeout(() => {
+  //       setImgErr("");
+  //     }, 4000);
+  //   }
+  // };
 
   const handleProductImagePicker = (e) => {
     var arr = e.target.files[0];
@@ -94,7 +95,9 @@ function Ratings() {
     if (e.target.value !== "") {
       var searchedProducts = [];
       products.forEach((product) => {
-        if (product.title.includes(e.target.value)) {
+        if (
+          product.title.toLowerCase().includes(e.target.value.toLowerCase())
+        ) {
           searchedProducts.push(product);
         }
       });
@@ -117,8 +120,8 @@ function Ratings() {
 
   const handleAdd = async () => {
     setUploading(true);
-    if (userName.length > 0 && review.length > 0 && image.name) {
-      var img = await handleImageUpload(image);
+    if (userName.length > 0 && review.length > 0) {
+      // var img = await handleImageUpload(image);
       firebase
         .firestore()
         .collection("products")
@@ -136,7 +139,7 @@ function Ratings() {
           ratings.push({
             name: userName,
             date: new Date(),
-            image: img,
+            // image: img,
             review: review,
             product_images: images,
             value_for_money: value_for_money,
@@ -162,7 +165,7 @@ function Ratings() {
             .then(() => {
               toaster.notify("Ratings added!");
               setUploading(false);
-              setImage("");
+              // setImage("");
               setValue_for_money(0);
               setQuality(0);
               setPackaging(0);
@@ -176,13 +179,13 @@ function Ratings() {
               setProduct_images([]);
             })
             .catch((err) => {
-              console.log(err);
+              console.log(err.message);
               toaster.notify("Something went wrong, Please try again!");
               setUploading(false);
             });
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.message);
           toaster.notify("Something went wrong, Please try again!");
           setUploading(false);
         });
@@ -190,11 +193,8 @@ function Ratings() {
       if (userName.length === 0) {
         toaster.notify("Please enter name!");
         setUploading(false);
-      } else if (review.length === 0) {
-        toaster.notify("Please enter Reiew!!");
-        setUploading(false);
       } else {
-        toaster.notify("Please select an Image!");
+        toaster.notify("Please enter Reivew!!");
         setUploading(false);
       }
     }
@@ -271,8 +271,9 @@ function Ratings() {
                 searchedProducts.map((product, index) => {
                   return (
                     <Card2
-                      image={product.images[0].image}
+                      image={product.images[0]?.image}
                       name={product.title}
+                      ratings={product.ratings}
                       key={index}
                       onClick={() => {
                         setActive(true);
@@ -295,6 +296,7 @@ function Ratings() {
                       key={index}
                       rate
                       handleDelete={() => handleDelete(index)}
+                      viewImages={() => setRatingImages(rating.product_images)}
                     />
                   );
                 })
@@ -324,7 +326,7 @@ function Ratings() {
           </div>
           <div className="body">
             <div className="user-detail">
-              <label
+              {/* <label
                 htmlFor="picker"
                 className={image ? "picker no-background" : "picker"}
               >
@@ -343,7 +345,7 @@ function Ratings() {
                 ) : (
                   <i className="fas fa-plus"></i>
                 )}
-              </label>
+              </label> */}
               <div className="name_rating">
                 <TextField
                   variant="outlined"
@@ -488,6 +490,48 @@ function Ratings() {
               disabled={uploading}
             >
               Add
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal open={ratingImages.length > 0} onClose={() => setRatingImages([])}>
+        <div className="modal category">
+          <div className="head">
+            <h4>Images</h4>
+            <i
+              className="fas fa-times"
+              onClick={() => {
+                setRatingImages([]);
+              }}
+            ></i>
+          </div>
+          <div
+            className="body"
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            {ratingImages.map((img) => (
+              <img
+                src={img}
+                alt=""
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: "contain",
+                  marginRight: 30,
+                  marginBottom: 20,
+                }}
+              />
+            ))}
+          </div>
+          <div className="footer">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setRatingImages([])}
+            >
+              Close
             </Button>
           </div>
         </div>
