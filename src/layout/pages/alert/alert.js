@@ -33,7 +33,15 @@ function Alert() {
       .firestore()
       .collection("settings")
       .get()
-      .then((snap) => snap.forEach((doc) => setAlerts(doc.data().alerts)));
+      .then((snap) =>
+        snap.forEach((doc) => {
+          var alerts = doc.data().alerts;
+          alerts.sort(
+            (a, b) => new Date(b.date.toDate()) - new Date(a.date.toDate())
+          );
+          setAlerts(alerts);
+        })
+      );
   };
 
   const handleImageUpload = async (image) => {
@@ -171,9 +179,11 @@ function Alert() {
               {alert.image && <img src={alert.image} alt="" />}
               <p>{alert.content}</p>
               <div className="bottom">
-                <a href={alert.link}>
-                  Learn More <i className="fas fa-chevron-right"></i>
-                </a>
+                {alert.link && (
+                  <a href={alert.link} rel="noreferrer" target="_blank">
+                    Learn More <i className="fas fa-chevron-right"></i>
+                  </a>
+                )}
                 <p className="date">
                   {moment(
                     alert.date.seconds ? alert.date.toDate() : alert.date
@@ -248,7 +258,7 @@ function Alert() {
               label="Link"
               value={link}
               onChange={(e) => {
-                setContent(e.target.value);
+                setLink(e.target.value);
               }}
               style={{ margin: "20px 0" }}
             />

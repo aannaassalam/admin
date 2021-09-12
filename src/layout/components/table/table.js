@@ -1,13 +1,24 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
 import { MenuItem, Select } from "@material-ui/core";
+import { useExportData } from "react-table-plugins";
+import XLSX from "xlsx";
 // import SwipeToDelete from "react-swipe-to-delete-component";
 import "./table.css";
 // import chevron_left from "../../../assets/chevron-left.svg";
 // import chevron_right from "../../../assets/chevron-right.svg";
 
-function Table({ columns, data = [] }) {
+const Table = forwardRef((props, ref) => {
   // Use the state and functions returned from useTable to build your UI
+
+  // useImperativeHandle(ref, () => ({
+  //   export() {
+  //     exportData("xlsx", true);
+  //   },
+  // }));
+
+  const { columns, data } = props;
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -22,16 +33,41 @@ function Table({ columns, data = [] }) {
     setPageSize,
     canPreviousPage,
     canNextPage,
+    // exportData,
   } = useTable(
     {
       columns,
       data,
+      // getExportFileBlob,
     },
     useSortBy,
     usePagination
+    // useExportData
   );
 
   const pageSizeOptions = [10, 20, 30, 40];
+
+  function getExportFileBlob({ columns, data, fileType, fileName }) {
+    console.log(columns);
+    const header = columns.map((c) => c.exportValue);
+    const compatibleData = data.map((row) => {
+      const obj = {};
+      header.forEach((col, index) => {
+        obj[col] = row[index];
+      });
+      return obj;
+    });
+
+    let wb = XLSX.utils.book_new();
+    let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
+      header,
+    });
+    XLSX.utils.book_append_sheet(wb, ws1, "Tridot Users");
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+
+    // Returning false as downloading of file is already taken care of
+    return false;
+  }
 
   return (
     <div>
@@ -92,6 +128,6 @@ function Table({ columns, data = [] }) {
       </div>
     </div>
   );
-}
+});
 
 export default Table;

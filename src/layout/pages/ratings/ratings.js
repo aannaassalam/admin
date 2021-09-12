@@ -36,6 +36,7 @@ function Ratings() {
   const [current, setCurrent] = useState("");
   const [product_images, setProduct_images] = useState([]);
   const [ratingImages, setRatingImages] = useState([]);
+  const [index, setIndex] = useState(-1);
 
   useEffect(() => {
     init();
@@ -200,11 +201,10 @@ function Ratings() {
     }
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = () => {
     setUploading(true);
     var r = ratings;
     var deleteItem = r.splice(index, 1)[0];
-    var img = deleteItem[0].image;
     firebase
       .firestore()
       .collection("products")
@@ -214,11 +214,10 @@ function Ratings() {
       })
       .then(() => {
         init();
-        setActive(false);
         deleteItem.product_images.forEach((image) =>
           firebase.storage().refFromURL(image).delete()
         );
-        firebase.storage().refFromURL(img).delete();
+        setIndex(-1);
         setUploading(false);
       });
   };
@@ -295,7 +294,7 @@ function Ratings() {
                       rating={rating}
                       key={index}
                       rate
-                      handleDelete={() => handleDelete(index)}
+                      handleDelete={() => setIndex(index)}
                       viewImages={() => setRatingImages(rating.product_images)}
                     />
                   );
@@ -532,6 +531,35 @@ function Ratings() {
               onClick={() => setRatingImages([])}
             >
               Close
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal open={index > -1} onClose={() => setIndex(-1)}>
+        <div className="modal category">
+          <div className="head">
+            <h4>Are You Sure?</h4>
+            <i className="fas fa-times" onClick={() => setIndex(-1)}></i>
+          </div>
+          <div className="body">
+            <p>Are you sure, you want to delete this item?</p>
+          </div>
+          <div className="footer">
+            <Button
+              variant="text"
+              color="primary"
+              onClick={() => setIndex(-1)}
+              disabled={uploading}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDelete}
+              disabled={uploading}
+            >
+              Delete
             </Button>
           </div>
         </div>

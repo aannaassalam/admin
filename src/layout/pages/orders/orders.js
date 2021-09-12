@@ -16,7 +16,6 @@ import ListCard from "../../components/listCard/listCard";
 import Loader from "../../components/loader/loader";
 import toaster from "toasted-notes";
 import axios from "axios";
-import { getDefaultNormalizer } from "@testing-library/react";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -29,6 +28,7 @@ function Orders() {
   const [editID, setEditID] = useState("");
   const [tab, setTab] = useState("all");
   const [sortedOrders, setSortedOrders] = useState({});
+  // const [token, setToken] = useState("");
 
   useEffect(() => {
     init();
@@ -49,22 +49,22 @@ function Orders() {
           });
 
           var orders2 = [];
-          var token = "";
-          await axios
-            .post("https://apiv2.shiprocket.in/v1/external/auth/login", {
-              email: "anasalam027@gmail.com",
-              password: "anasalam786",
-            })
-            .then((resp) => {
-              token = resp.data.token;
-            })
-            .catch((err) => console.log(err.message));
+          // var token = "";
+          // await axios
+          //   .post("https://apiv2.shiprocket.in/v1/external/auth/login", {
+          //     email: "anasalam027@gmail.com",
+          //     password: "anasalam786",
+          //   })
+          //   .then((resp) => {
+          //     setToken(resp.data.token);
+          //   })
+          //   .catch((err) => console.log(err.message));
 
           for (const order of orders) {
             if (order.awb_number.length > 0) {
               const config = {
                 headers: {
-                  Authorization: `Bearer ${token}`,
+                  Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE2MTA0NTMsImlzcyI6Imh0dHBzOi8vYXBpdjIuc2hpcHJvY2tldC5pbi92MS9leHRlcm5hbC9hdXRoL2xvZ2luIiwiaWF0IjoxNjMxNDU0NjQ5LCJleHAiOjE2MzIzMTg2NDksIm5iZiI6MTYzMTQ1NDY0OSwianRpIjoiR3A3YUt3RWdkemZud3lZQiJ9.rDCHkIuxT7FZ3xScygCGjwdnV-LEeXed7p_G3O-DDYg`,
                 },
               };
               await axios
@@ -99,7 +99,6 @@ function Orders() {
               orders2.push(order);
             }
           }
-
           var process_orders = [];
           var transit_orders = [];
           var delivered_orders = [];
@@ -135,6 +134,7 @@ function Orders() {
                 };
                 setOrders(orders2);
                 setSortedOrders(obj);
+                console.log(obj);
                 setLoading(false);
               }
             });
@@ -272,15 +272,16 @@ function Orders() {
     },
   ];
 
-  const handleAwb = () => {
+  const handleAwb = async () => {
     setUploading(true);
-    if (awb.length > 0) {
+    if (awb.length === 0) {
       firebase
         .firestore()
         .collection("orders")
         .doc(editID)
         .update({
           awb_number: awb,
+          status: [0],
         })
         .then(() => {
           toaster.notify("AWB Updated!!");
@@ -290,9 +291,53 @@ function Orders() {
           setAwb("");
         });
     } else {
-      toaster.notify("AWB number can't be empty");
-      setUploading(false);
+      const config = {
+        headers: {
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE2MTA0NTMsImlzcyI6Imh0dHBzOi8vYXBpdjIuc2hpcHJvY2tldC5pbi92MS9leHRlcm5hbC9hdXRoL2xvZ2luIiwiaWF0IjoxNjMxNDU0NjQ5LCJleHAiOjE2MzIzMTg2NDksIm5iZiI6MTYzMTQ1NDY0OSwianRpIjoiR3A3YUt3RWdkemZud3lZQiJ9.rDCHkIuxT7FZ3xScygCGjwdnV-LEeXed7p_G3O-DDYg`,
+        },
+      };
+      await axios
+        .get(
+          `https://apiv2.shiprocket.in/v1/external/courier/track/awb/${awb}`,
+          config
+        )
+        .then((res) => {
+          firebase
+            .firestore()
+            .collection("orders")
+            .doc(editID)
+            .get()
+            .then((doc) => {
+              var order = doc.data();
+              if (
+                !order.status.includes(res.data.tracking_data.shipment_status)
+              ) {
+                order.status.push(res.data.tracking_data.shipment_status);
+                firebase
+                  .firestore()
+                  .collection("orders")
+                  .doc(doc.id)
+                  .update({
+                    status: order.status,
+                    awb_number: awb,
+                  })
+                  .then(() => {
+                    toaster.notify("AWB Updated!!");
+                    init();
+                    setUploading(false);
+                    setAwbModal(false);
+                    setAwb("");
+                  })
+                  .catch((err) => console.log(err.message));
+              }
+            });
+        })
+        .catch((err) => console.log(err.message));
     }
+    // } else {
+    //   toaster.notify("AWB number can't be empty");
+    //   setUploading(false);
+    // }
   };
 
   return (
