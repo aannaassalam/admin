@@ -1,0 +1,122 @@
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-backdrop .modal {
+  max-width: 500px;
+  width: 100%;
+  background-color: #3d3e47;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  outline: 0;
+  box-shadow: 0 24px 38px 3px rgba(60, 75, 100, 0.14),
+    0 9px 46px 8px rgba(60, 75, 100, 0.12),
+    0 11px 15px -7px rgba(60, 75, 100, 0.2);
+  color: #fff;
+}
+
+.modal-backdrop .modal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.modal-backdrop .modal .modal-header h5 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.modal-backdrop .modal .modal-header span {
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.modal-backdrop .modal .modal-body {
+  padding: 1rem;
+}
+
+.modal-body .types > div {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.modal-body .types > div span {
+  margin-left: 15px;
+  font-size: 18px;
+  color: #c77171;
+  cursor: pointer;
+}
+
+.modal-body .types p {
+  font-size: 14px;
+  color: #4693dd;
+  font-weight: 500;
+  /* margin-top: 10px; */
+  cursor: pointer;
+}
+
+.modal-backdrop .modal .modal-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal-footer button.cancel {
+  all: unset;
+  background-color: #a7a7a7;
+  color: rgba(44, 56, 74, 0.95);
+  padding: 0.45rem 0.75rem;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0.25rem;
+  box-shadow: 0 1px 1px 0 rgba(60, 75, 100, 0.14),
+    0 2px 1px -1px rgba(60, 75, 100, 0.12), 0 1px 3px 0 rgba(60, 75, 100, 0.2);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.modal-footer button.cancel:hover {
+  background-color: #8e8e8e;
+  color: #000015;
+}
+
+.modal-footer button.save {
+  all: unset;
+  padding: 0.45rem 0.75rem;
+  background-color: #857dcc;
+  color: #000015;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0.25rem;
+  box-shadow: 0 1px 1px 0 rgba(60, 75, 100, 0.14),
+    0 2px 1px -1px rgba(60, 75, 100, 0.12), 0 1px 3px 0 rgba(60, 75, 100, 0.2);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.modal-footer button.save:hover {
+  background-color: #9791d4;
+}

@@ -1,0 +1,35 @@
+.subcategories {
+  padding: 1.4rem 1.75rem;
+}
+
+.subcategories .subcategories-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.subcategories .addnew {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.subcategories .addnew button {
+  all: unset;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  color: #121212;
+  background-color: #9d97d6;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.subcategories .addnew button i {
+  margin-right: 10px;
+  margin-top: 3px;
+}
