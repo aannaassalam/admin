@@ -1,5 +1,5 @@
-import { FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material";
-import { doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import { FormControlLabel, Radio, TextField } from "@mui/material";
+import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import "./subcategory-modal.css";
 
@@ -44,29 +44,25 @@ export default function SubcategoryModal({
 
   const addSubcategory = () => {
     if (name.trim() !== "" && type) {
-      setDoc(
-        docRef,
-        {
-          categories: categories.map((cate) => {
-            if (cate.id === categoryID) {
-              cate.subcategories = [
-                ...subcategories,
-                {
-                  name,
-                  type,
-                  id: `sub${
-                    parseInt(
-                      subcategories[subcategories.length - 1].id.substring(3)
-                    ) + 1
-                  }`,
-                },
-              ];
-            }
-            return cate;
-          }),
-        },
-        { merge: true }
-      )
+      updateDoc(docRef, {
+        categories: categories.map((cate) => {
+          if (cate.id === categoryID) {
+            cate.subcategories = [
+              ...subcategories,
+              {
+                name,
+                type,
+                id: `sub${
+                  parseInt(
+                    subcategories[subcategories.length - 1].id.substring(3)
+                  ) + 1
+                }`,
+              },
+            ];
+          }
+          return cate;
+        }),
+      })
         .then(() => {
           console.log("Added");
           setModal(false);
@@ -79,24 +75,20 @@ export default function SubcategoryModal({
 
   const editSubcategory = () => {
     if (name.trim() !== "" && type) {
-      setDoc(
-        docRef,
-        {
-          categories: categories.map((cate) => {
-            if (cate.id === categoryID) {
-              cate.subcategories = subcategories.map((sub) => {
-                if (sub.id === subcategory.id) {
-                  sub.name = name;
-                  sub.type = type;
-                }
-                return sub;
-              });
-            }
-            return cate;
-          }),
-        },
-        { merge: true }
-      )
+      updateDoc(docRef, {
+        categories: categories.map((cate) => {
+          if (cate.id === categoryID) {
+            cate.subcategories = subcategories.map((sub) => {
+              if (sub.id === subcategory.id) {
+                sub.name = name;
+                sub.type = type;
+              }
+              return sub;
+            });
+          }
+          return cate;
+        }),
+      })
         .then(() => {
           console.log("Updated");
           setModal(false);

@@ -30,3 +30,20 @@
   font-weight: 500;
   margin-right: 5px;
 }
+
+.per_comment .comment .actions {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 500;
+  margin-top: 7px;
+  user-select: none;
+}
+
+.per_comment .comment .actions span {
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.per_comment .comment .replies {
+  padding: 10px 0;
+}
