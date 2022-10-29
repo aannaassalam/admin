@@ -9,14 +9,23 @@ export default function PostCard({ post }) {
   post.comments.forEach(
     (comment) => (total_comments += comment.replies.length)
   );
-
+  console.log(modal);
   return (
-    <div className="nutuyu-card" onClick={() => setModal(true)}>
-      <img src={post.image} alt="" />
-      <div className="comments-count">
-        {post.comments?.length + total_comments} comments
+    <>
+      <div className="nutuyu-card" onClick={() => setModal(true)}>
+        <img src={post.image} alt="" />
+        <div className="comments-count">
+          {post.comments?.length + total_comments} comments
+        </div>
       </div>
-      {modal && <PostModal setModal={setModal} post={post} />}
-    </div>
+      {modal && (
+        <PostModal
+          setModal={() => {
+            setModal();
+          }}
+          post={post}
+        />
+      )}
+    </>
   );
 }
