@@ -1,0 +1,32 @@
+.per_comment {
+  display: flex;
+  align-items: flex-start;
+  padding: 5px 0;
+  /* align-items: center; */
+}
+
+.per_comment .user-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.per_comment .user-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.per_comment .comment {
+  width: calc(100% - 40px);
+}
+
+.per_comment .comment span.comment_text {
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.per_comment .comment span.comment_text span.username {
+  font-weight: 500;
+  margin-right: 5px;
+}

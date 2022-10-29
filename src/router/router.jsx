@@ -13,11 +13,11 @@ const routes = [
       import("../layout/pages/subcategories/subcategories.jsx")
     ),
   },
-  //   {
-  //     route: "/profile",
-  //     id: "profile",
-  //     Component: lazy(() => import("../layout/pages/profile/profile.jsx")),
-  //   },
+  {
+    route: "/nutuyu",
+    id: "nutuyu",
+    Component: lazy(() => import("../layout/pages/nutuyu/nutuyu.jsx")),
+  },
   //   {
   //     route: "/products/:category",
   //     id: "category",

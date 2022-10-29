@@ -1,0 +1,17 @@
+.nutuyu-card {
+  margin: 5px;
+  background-color: #fff;
+}
+
+.nutuyu-card img {
+  height: 300px;
+  object-fit: contain;
+}
+
+.nutuyu-card .comments-count {
+  width: 100%;
+  padding: 5px 10px;
+  /* background-color: #fff; */
+  font-size: 14px;
+  font-weight: 500;
+}
