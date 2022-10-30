@@ -3,13 +3,14 @@ import "./perComment.css";
 import profile from "../../../../assets/user-profile.png";
 import DeleteModal from "../../../../components/delete-modal/delete-modal";
 import { doc, getFirestore, updateDoc } from "firebase/firestore";
+import moment from "moment";
 
 export default function PerComment({ comment, post }) {
   const [replies, setReplies] = useState(false);
   const [delete_modal, setDelete_modal] = useState(false);
   const [replyId, setReplyId] = useState("");
 
-  const actions = (replies_action, replyId) => {
+  const actions = (replies_action, replyId, date) => {
     return (
       <div className="actions">
         <span
@@ -25,6 +26,7 @@ export default function PerComment({ comment, post }) {
             {replies ? "Hide" : "View"} replies
           </span>
         )}
+        <span>{moment(date).fromNow()}</span>
       </div>
     );
   };
@@ -63,7 +65,7 @@ export default function PerComment({ comment, post }) {
           <span className="username">harry_potter</span>
           {comment.comment}
         </span>
-        {actions(comment.replies.length > 0)}
+        {actions(comment.replies.length > 0, "", comment.date.toDate())}
         {replies && (
           <div className="replies">
             {comment.replies.map((reply) => {
@@ -77,7 +79,7 @@ export default function PerComment({ comment, post }) {
                       <span className="username">harry_potter</span>
                       {reply.comment}
                     </span>
-                    {actions(false, reply.id)}
+                    {actions(false, reply.id, reply.date.toDate())}
                   </div>
                 </div>
               );

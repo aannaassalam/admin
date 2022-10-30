@@ -1,7 +1,8 @@
 import { useState } from "react";
+import "./postCard.css";
 import PerComment from "./per comment/perComment";
 import profile from "../../../assets/user-profile.png";
-import "./postCard.css";
+import moment from "moment";
 
 export default function PostCard({ post }) {
   const [modal, setModal] = useState(false);
@@ -48,6 +49,7 @@ export default function PostCard({ post }) {
         <img src={post.image} alt="" />
         <div className="comments-count">
           {post.comments?.length + total_comments} comments
+          <span>{moment(post.date.toDate()).fromNow()}</span>
         </div>
       </div>
       {modal && post_modal()}

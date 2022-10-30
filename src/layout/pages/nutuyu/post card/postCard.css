@@ -14,6 +14,15 @@
   /* background-color: #fff; */
   font-size: 14px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.nutuyu-card .comments-count span {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
 }
 
 .post_modal {
