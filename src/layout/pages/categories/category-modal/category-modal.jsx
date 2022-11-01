@@ -52,7 +52,10 @@ export default function CategoryModal({ setModal, category }) {
             types: typePermission
               ? types.filter((type) => type.trim() !== "")
               : [],
-            id: categories[categories.length - 1].id + 1,
+            id:
+              categories.length > 0
+                ? categories[categories.length - 1].id + 1
+                : 1,
             subcategories: [],
           },
         ],
@@ -69,19 +72,15 @@ export default function CategoryModal({ setModal, category }) {
 
   const editCategory = () => {
     if (name.trim() !== "") {
-      updateDoc(
-        docRef,
-        {
-          categories: categories.map((cate) => {
-            if (cate.id === category.id) {
-              cate.name = name;
-              cate.types = types;
-            }
-            return cate;
-          }),
-        },
-        { merge: true }
-      )
+      updateDoc(docRef, {
+        categories: categories.map((cate) => {
+          if (cate.id === category.id) {
+            cate.name = name;
+            cate.types = types;
+          }
+          return cate;
+        }),
+      })
         .then(() => {
           console.log("Updated");
           setModal(false);

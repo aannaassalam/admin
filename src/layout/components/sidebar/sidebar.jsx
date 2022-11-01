@@ -33,10 +33,13 @@ export default function Sidebar() {
         <i className="fa-solid fa-hashtag"></i>
         <p>Nutuyu</p>
       </a>
-      <div className="link">
+      <a
+        href="/settings"
+        className={paths.includes("nutuyu") ? "link active" : "link"}
+      >
         <i className="fa-solid fa-gear"></i>
         <p>Settings</p>
-      </div>
+      </a>
     </div>
   );
 }

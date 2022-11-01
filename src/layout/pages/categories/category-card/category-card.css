@@ -18,6 +18,7 @@
   font-weight: 500;
   margin-bottom: auto;
   display: flex;
+  text-transform: capitalize;
   /* align-items: center; */
 }
 

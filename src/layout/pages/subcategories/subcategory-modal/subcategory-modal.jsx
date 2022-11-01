@@ -43,7 +43,14 @@ export default function SubcategoryModal({
   }, [errMsg]);
 
   const addSubcategory = () => {
-    if (name.trim() !== "" && type) {
+    const id =
+      subcategories.length > 0
+        ? `sub${
+            parseInt(subcategories[subcategories.length - 1].id.substring(3)) +
+            1
+          }`
+        : "sub1";
+    if (name.trim() !== "") {
       updateDoc(docRef, {
         categories: categories.map((cate) => {
           if (cate.id === categoryID) {
@@ -51,12 +58,8 @@ export default function SubcategoryModal({
               ...subcategories,
               {
                 name,
-                type,
-                id: `sub${
-                  parseInt(
-                    subcategories[subcategories.length - 1].id.substring(3)
-                  ) + 1
-                }`,
+                type: type || "",
+                id: id,
               },
             ];
           }
@@ -69,12 +72,12 @@ export default function SubcategoryModal({
         })
         .catch((err) => console.log(err));
     } else {
-      setErrMsg({ input: "name", msg: "Please fill in Category Name" });
+      setErrMsg({ input: "name", msg: "Please fill in Subcategory Name" });
     }
   };
 
   const editSubcategory = () => {
-    if (name.trim() !== "" && type) {
+    if (name.trim() !== "") {
       updateDoc(docRef, {
         categories: categories.map((cate) => {
           if (cate.id === categoryID) {
@@ -119,7 +122,7 @@ export default function SubcategoryModal({
             error={errMsg.input === "name"}
             helperText={errMsg.input === "name" && errMsg.msg}
           />
-          {category.types && (
+          {category.typeslength > 0 && (
             <>
               <span className="choose-type">Choose a Type</span>
               {/* <RadioGroup

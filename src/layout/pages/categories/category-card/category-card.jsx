@@ -1,4 +1,10 @@
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import CategoryModal from "../category-modal/category-modal";
 import DeleteModal from "../../../components/delete-modal/delete-modal";
@@ -34,13 +40,9 @@ export default function CategoryCard({ category }) {
     getDoc(docRef)
       .then((doc) => {
         const categories = doc.data().categories;
-        setDoc(
-          docRef,
-          {
-            categories: categories.filter((cate) => cate.id !== category.id),
-          },
-          { merge: true }
-        )
+        updateDoc(docRef, {
+          categories: categories.filter((cate) => cate.id !== category.id),
+        })
           .then(() => console.log("deleted"))
           .catch((err) => console.log(err));
       })
@@ -48,10 +50,10 @@ export default function CategoryCard({ category }) {
   };
 
   useEffect(() => {
-    clickAway(() => setDropdown(false));
+    clickAway(() => setDropdown(false), true);
 
     return () => {
-      clickAway(() => setDropdown(false));
+      clickAway(() => setDropdown(false), true);
     };
   }, []);
 
