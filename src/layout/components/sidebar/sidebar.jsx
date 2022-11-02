@@ -11,17 +11,14 @@ export default function Sidebar() {
       <div className="logo">
         <h1>NuTuYu72</h1>
       </div>
-      {paths.includes("categories") ? (
-        <a href="/categories" className="link active">
-          <i className="fa-solid fa-list"></i>
-          <p>Categories</p>
-        </a>
-      ) : (
-        <a href="/categories" className="link">
-          <i className="fa-solid fa-list"></i>
-          <p>Categories</p>
-        </a>
-      )}
+
+      <a
+        href="/categories"
+        className={paths.includes("categories") ? "link active" : "link"}
+      >
+        <i className="fa-solid fa-list"></i>
+        <p>Categories</p>
+      </a>
       <a
         href="/products"
         className={paths.includes("products") ? "link active" : "link"}
@@ -42,7 +39,7 @@ export default function Sidebar() {
       </a>
       <a
         href="/settings"
-        className={paths.includes("nutuyu") ? "link active" : "link"}
+        className={paths.includes("settings") ? "link active" : "link"}
       >
         <i className="fa-solid fa-gear"></i>
         <p>Settings</p>

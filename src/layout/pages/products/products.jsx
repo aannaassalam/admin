@@ -66,7 +66,7 @@ function Products() {
               <p> {item.subCategory}</p>
               <p>{item.type}</p>
               <p> {item.price}</p>
-              <p>{moment(item.date.toDate()).format("MMM Do YY")}</p>
+              <p>{moment(item.date.toDate()).fromNow()}</p>
               <div className="actions">
                 <EditOutlinedIcon
                   onClick={() => {
