@@ -87,6 +87,7 @@ function AddModal({ setModal, edit, editProduct }) {
           note: state.product.note,
           type: state.product.type,
         });
+        setModal();
       } else {
         addDoc(collec, {
           name: state.product.name,
