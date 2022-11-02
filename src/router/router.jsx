@@ -18,11 +18,11 @@ const routes = [
     id: "nutuyu",
     Component: lazy(() => import("../layout/pages/nutuyu/nutuyu.jsx")),
   },
-  //   {
-  //     route: "/products/:category",
-  //     id: "category",
-  //     Component: lazy(() => import("../layout/pages/products/products.jsx")),
-  //   },
+  {
+    route: "/products",
+    id: "products",
+    Component: lazy(() => import("../layout/pages/products/products.jsx")),
+  },
   //   {
   //     route: "/products/:category/:subcategory",
   //     id: "subcategory",

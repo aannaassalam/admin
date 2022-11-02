@@ -1,0 +1,103 @@
+.addmodal-backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.addmodal-backdrop .modal {
+  max-width: 700px;
+  height: 95vh;
+  width: 100%;
+  background-color: #3d3e47;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  outline: 0;
+  box-shadow: 0 24px 38px 3px rgba(60, 75, 100, 0.14),
+    0 9px 46px 8px rgba(60, 75, 100, 0.12),
+    0 11px 15px -7px rgba(60, 75, 100, 0.2);
+  color: #fff;
+}
+.addmodal-backdrop .css-xzkq1u-MuiFormHelperText-root,
+.addmodal-backdrop .css-1oiubqy-MuiFormHelperText-root {
+  color: #ff8c8c;
+}
+.addmodal-backdrop .modal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.addmodal-backdrop .modal .modal-header h5 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.addmodal-backdrop .modal .modal-header span {
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 25px;
+  cursor: pointer;
+}
+.addmodal-backdrop .modal .inputFields {
+  width: 100%;
+  display: grid;
+  padding: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  align-items: center;
+}
+.addmodal-backdrop .modal .inputFields .input {
+  margin: 5px 0;
+}
+.addmodal-backdrop .modal textarea {
+  background-color: transparent;
+  font-family: inherit;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  margin-top: 10px;
+  color: #fff;
+}
+.addmodal-backdrop .modal textarea.error {
+  color: #ff8c8c;
+  border: 1px solid currentColor;
+}
+.addmodal-backdrop .modal textarea.error::placeholder {
+  color: #ff8c8c;
+}
+.addmodal-backdrop .modal i {
+  cursor: pointer;
+}
+.addmodal-backdrop .modal button {
+  all: unset;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  color: #121212;
+  background-color: #9d97d6;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 10px 0;
+}
+.addmodal-backdrop .modal .buttons {
+  display: flex;
+
+  align-self: flex-end;
+  height: 200px;
+}
+.addmodal-backdrop .modal .buttons button {
+  height: max-content;
+  align-self: flex-end;
+  margin: 0 10px;
+  padding: 10px 30px;
+}

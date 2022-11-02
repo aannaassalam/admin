@@ -17,7 +17,6 @@ export default function PostModal({ post, setModal }) {
             <div
               onClick={() => {
                 setModal(false);
-                // alert("?/");
               }}
             >
               <i className="fa-solid fa-times"></i>

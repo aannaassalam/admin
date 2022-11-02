@@ -22,10 +22,13 @@ export default function Sidebar() {
           <p>Categories</p>
         </a>
       )}
-      <div className="link">
+      <a
+        href="/products"
+        className={paths.includes("products") ? "link active" : "link"}
+      >
         <i className="fa-solid fa-shirt"></i>
         <p>Products</p>
-      </div>
+      </a>
       <div className="link">
         <i className="fa-solid fa-boxes-stacked"></i>
         <p>Orders</p>
