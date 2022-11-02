@@ -1,0 +1,19 @@
+.settings {
+  padding: 20px;
+}
+
+.settings h3 {
+  font-size: 1.8rem;
+  color: #fff;
+  min-width: 100px;
+}
+
+.settings .edit-button {
+  all: unset;
+  padding: 8px 10px;
+  font-weight: 500;
+  background-color: #2982cc;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}

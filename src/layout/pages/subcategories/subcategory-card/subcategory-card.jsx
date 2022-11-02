@@ -1,6 +1,13 @@
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import DeleteModal from "../../../components/delete-modal/delete-modal";
+import clickAway from "../../../hooks/clickAway";
 import SubcategoryModal from "../subcategory-modal/subcategory-modal";
 // import CategoryModal from "../../pages/categories/category-modal/category-modal";
 import "./subcategory-card.css";
@@ -34,20 +41,17 @@ export default function SubcategoryCard({ subcategory, categoryID }) {
     getDoc(docRef)
       .then((doc) => {
         const categories = doc.data().categories;
-        setDoc(
-          docRef,
-          {
-            categories: categories.map((category) => {
-              if (category.id === categoryID) {
-                category.subcategories = category.subcategories.filter(
-                  (sub) => sub.id !== subcategory.id
-                );
-              }
-              return category;
-            }),
-          },
-          { merge: true }
-        )
+        updateDoc(docRef, {
+          categories: categories.map((category) => {
+            if (category.id === categoryID) {
+              console.log("in");
+              category.subcategories = category.subcategories.filter(
+                (sub) => sub.id !== subcategory.id
+              );
+            }
+            return category;
+          }),
+        })
           .then(() => console.log("deleted"))
           .catch((err) => console.log(err));
       })
@@ -55,10 +59,10 @@ export default function SubcategoryCard({ subcategory, categoryID }) {
   };
 
   // useEffect(() => {
-  //   window.addEventListener("click", clickAway, true);
+  //   clickAway(() => setDropdown(false));
 
   //   return () => {
-  //     window.addEventListener("click", clickAway, true);
+  //     clickAway(() => setDropdown(false));
   //   };
   // }, []);
 

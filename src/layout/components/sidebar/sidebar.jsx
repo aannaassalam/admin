@@ -33,21 +33,20 @@ export default function Sidebar() {
         <i className="fa-solid fa-boxes-stacked"></i>
         <p>Orders</p>
       </div>
-      {paths.includes("nutuyu") ? (
-        <a href="/nutuyu" className="link active">
-          <i className="fa-solid fa-hashtag"></i>
-          <p>Nutuyu</p>
-        </a>
-      ) : (
-        <a href="/nutuyu" className="link">
-          <i className="fa-solid fa-hashtag"></i>
-          <p>Nutuyu</p>\
-        </a>
-      )}
-      <div className="link">
+      <a
+        href="/nutuyu"
+        className={paths.includes("nutuyu") ? "link active" : "link"}
+      >
+        <i className="fa-solid fa-hashtag"></i>
+        <p>Nutuyu</p>
+      </a>
+      <a
+        href="/settings"
+        className={paths.includes("nutuyu") ? "link active" : "link"}
+      >
         <i className="fa-solid fa-gear"></i>
         <p>Settings</p>
-      </div>
+      </a>
     </div>
   );
 }

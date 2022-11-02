@@ -1,8 +1,15 @@
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import CategoryModal from "../category-modal/category-modal";
 import DeleteModal from "../../../components/delete-modal/delete-modal";
 import "./category-card.css";
+import clickAway from "../../../hooks/clickAway";
 
 export default function CategoryCard({ category }) {
   const [dropdown, setDropdown] = useState(false);
@@ -33,74 +40,75 @@ export default function CategoryCard({ category }) {
     getDoc(docRef)
       .then((doc) => {
         const categories = doc.data().categories;
-        setDoc(
-          docRef,
-          {
-            categories: categories.filter((cate) => cate.id !== category.id),
-          },
-          { merge: true }
-        )
+        updateDoc(docRef, {
+          categories: categories.filter((cate) => cate.id !== category.id),
+        })
           .then(() => console.log("deleted"))
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
 
-  // useEffect(() => {
-  //   window.addEventListener("click", clickAway, true);
+  useEffect(() => {
+    clickAway(() => setDropdown(false), true);
 
-  //   return () => {
-  //     window.addEventListener("click", clickAway, true);
-  //   };
-  // }, []);
+    return () => {
+      clickAway(() => setDropdown(false), true);
+    };
+  }, []);
 
   return (
-    <div
-      className="category-card"
-      style={{
-        backgroundColor: colors[randomNumber].hex,
-        backgroundImage: colors[randomNumber].gradient,
-      }}
-      onClick={() => (window.location.href = `/categories/${category.name}`)}
-    >
-      <h3>
-        {category.name}
-        <span
-          onClick={() => {
-            setDropdown(!dropdown);
-          }}
-        >
-          <i className="fa-solid fa-ellipsis-vertical"></i>
-        </span>
-      </h3>
-      {dropdown && (
-        <div className="dropdown-menu">
-          <div
-            className="dropdown-item"
-            onClick={() => {
-              setEditModal(true);
-              setDropdown(false);
+    <>
+      <div
+        className="category-card"
+        style={{
+          backgroundColor: colors[randomNumber].hex,
+          backgroundImage: colors[randomNumber].gradient,
+        }}
+        onClick={() => (window.location.href = `/categories/${category.name}`)}
+      >
+        <h3>
+          {category.name}
+          <span
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setDropdown(!dropdown);
             }}
           >
-            Edit Category
+            <i className="fa-solid fa-ellipsis-vertical"></i>
+          </span>
+        </h3>
+        {dropdown && (
+          <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="dropdown-item"
+              onClick={() => {
+                setEditModal(true);
+                setDropdown(false);
+              }}
+            >
+              Edit Category
+            </div>
+            <div
+              className="dropdown-item"
+              onClick={() => {
+                setDeleteModal(true);
+                setDropdown(false);
+              }}
+            >
+              Delete Category
+            </div>
           </div>
-          <div
-            className="dropdown-item"
-            onClick={() => {
-              setDeleteModal(true);
-              setDropdown(false);
-            }}
-          >
-            Delete Category
-          </div>
-        </div>
-      )}
-      {category.types.length > 0 && <p>Types</p>}
-      <ul>
-        {category.types.map((type, idx) => (
-          <li key={idx}>{type}</li>
-        ))}
-      </ul>
+        )}
+        {category.types.length > 0 && <p>Types</p>}
+        <ul>
+          {category.types.map((type, idx) => (
+            <li key={idx}>{type}</li>
+          ))}
+        </ul>
+      </div>
+
       {editModal && (
         <CategoryModal category={category} setModal={setEditModal} />
       )}
@@ -111,6 +119,6 @@ export default function CategoryCard({ category }) {
           name="Category"
         />
       )}
-    </div>
+    </>
   );
 }

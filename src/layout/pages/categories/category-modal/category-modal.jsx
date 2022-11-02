@@ -4,7 +4,7 @@ import {
   getFirestore,
   namedQuery,
   onSnapshot,
-  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { createRef } from "react";
@@ -44,23 +44,22 @@ export default function CategoryModal({ setModal, category }) {
 
   const addCategory = () => {
     if (name.trim() !== "") {
-      setDoc(
-        docRef,
-        {
-          categories: [
-            ...categories,
-            {
-              name: name,
-              types: typePermission
-                ? types.filter((type) => type.trim() !== "")
-                : [],
-              id: categories[categories.length - 1].id + 1,
-              subcategories: [],
-            },
-          ],
-        },
-        { merge: true }
-      )
+      updateDoc(docRef, {
+        categories: [
+          ...categories,
+          {
+            name: name,
+            types: typePermission
+              ? types.filter((type) => type.trim() !== "")
+              : [],
+            id:
+              categories.length > 0
+                ? categories[categories.length - 1].id + 1
+                : 1,
+            subcategories: [],
+          },
+        ],
+      })
         .then(() => {
           console.log("Added");
           setModal(false);
@@ -73,19 +72,15 @@ export default function CategoryModal({ setModal, category }) {
 
   const editCategory = () => {
     if (name.trim() !== "") {
-      setDoc(
-        docRef,
-        {
-          categories: categories.map((cate) => {
-            if (cate.id === category.id) {
-              cate.name = name;
-              cate.types = types;
-            }
-            return cate;
-          }),
-        },
-        { merge: true }
-      )
+      updateDoc(docRef, {
+        categories: categories.map((cate) => {
+          if (cate.id === category.id) {
+            cate.name = name;
+            cate.types = types;
+          }
+          return cate;
+        }),
+      })
         .then(() => {
           console.log("Updated");
           setModal(false);

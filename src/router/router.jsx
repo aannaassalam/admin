@@ -23,6 +23,11 @@ const routes = [
     id: "products",
     Component: lazy(() => import("../layout/pages/products/products.jsx")),
   },
+  {
+    route: "/settings",
+    id: "settings",
+    Component: lazy(() => import("../layout/pages/settings/settings.jsx")),
+  },
   //   {
   //     route: "/products/:category/:subcategory",
   //     id: "subcategory",

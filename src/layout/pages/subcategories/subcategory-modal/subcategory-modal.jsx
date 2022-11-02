@@ -1,5 +1,5 @@
-import { FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material";
-import { doc, getFirestore, onSnapshot, setDoc } from "firebase/firestore";
+import { FormControlLabel, Radio, TextField } from "@mui/material";
+import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import "./subcategory-modal.css";
 
@@ -43,60 +43,55 @@ export default function SubcategoryModal({
   }, [errMsg]);
 
   const addSubcategory = () => {
-    if (name.trim() !== "" && type) {
-      setDoc(
-        docRef,
-        {
-          categories: categories.map((cate) => {
-            if (cate.id === categoryID) {
-              cate.subcategories = [
-                ...subcategories,
-                {
-                  name,
-                  type,
-                  id: `sub${
-                    parseInt(
-                      subcategories[subcategories.length - 1].id.substring(3)
-                    ) + 1
-                  }`,
-                },
-              ];
-            }
-            return cate;
-          }),
-        },
-        { merge: true }
-      )
+    const id =
+      subcategories.length > 0
+        ? `sub${
+            parseInt(subcategories[subcategories.length - 1].id.substring(3)) +
+            1
+          }`
+        : "sub1";
+    if (name.trim() !== "") {
+      updateDoc(docRef, {
+        categories: categories.map((cate) => {
+          if (cate.id === categoryID) {
+            cate.subcategories = [
+              ...subcategories,
+              {
+                name,
+                type: type || "",
+                id: id,
+              },
+            ];
+          }
+          return cate;
+        }),
+      })
         .then(() => {
           console.log("Added");
           setModal(false);
         })
         .catch((err) => console.log(err));
     } else {
-      setErrMsg({ input: "name", msg: "Please fill in Category Name" });
+      setErrMsg({ input: "name", msg: "Please fill in Subcategory Name" });
     }
   };
 
   const editSubcategory = () => {
-    if (name.trim() !== "" && type) {
-      setDoc(
-        docRef,
-        {
-          categories: categories.map((cate) => {
-            if (cate.id === categoryID) {
-              cate.subcategories = subcategories.map((sub) => {
-                if (sub.id === subcategory.id) {
-                  sub.name = name;
-                  sub.type = type;
-                }
-                return sub;
-              });
-            }
-            return cate;
-          }),
-        },
-        { merge: true }
-      )
+    if (name.trim() !== "") {
+      updateDoc(docRef, {
+        categories: categories.map((cate) => {
+          if (cate.id === categoryID) {
+            cate.subcategories = subcategories.map((sub) => {
+              if (sub.id === subcategory.id) {
+                sub.name = name;
+                sub.type = type;
+              }
+              return sub;
+            });
+          }
+          return cate;
+        }),
+      })
         .then(() => {
           console.log("Updated");
           setModal(false);
@@ -127,7 +122,7 @@ export default function SubcategoryModal({
             error={errMsg.input === "name"}
             helperText={errMsg.input === "name" && errMsg.msg}
           />
-          {category.types && (
+          {category.typeslength > 0 && (
             <>
               <span className="choose-type">Choose a Type</span>
               {/* <RadioGroup
