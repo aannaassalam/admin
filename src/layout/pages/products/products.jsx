@@ -63,7 +63,7 @@ function Products() {
             <div className="product">
               <p>{item.name}</p>
               <p>{item.category}</p>
-              <p> {item.subcategory.name}</p>
+              <p> {item.subcategory?.name}</p>
               <p>{item.type}</p>
               <p> {item.price}</p>
               <p>{moment(item.date.toDate()).fromNow()}</p>
