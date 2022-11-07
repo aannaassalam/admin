@@ -23,9 +23,9 @@ function Products() {
     deleteProduct: {},
   });
   const db = getFirestore();
-  const collec = collection(db, "products");
+  const collectionRef = collection(db, "products");
   useEffect(() => {
-    onSnapshot(collec, (snap) => {
+    onSnapshot(collectionRef, (snap) => {
       var arr = [];
       var prod = {};
       snap.docs.forEach((doc) => {
@@ -36,7 +36,6 @@ function Products() {
       setstate({ ...state, products: arr });
     });
   }, []);
-  console.log(state.products);
   return (
     <>
       <div className="Products">
@@ -51,45 +50,47 @@ function Products() {
         </div>
         <div className="table">
           <div className="header">
-            <p> Name</p>
-            <p> Category</p>
-            <p> Sub Category</p>
-            <p> Type</p>
-            <p> Price</p>
+            <p>Name</p>
+            <p>Category</p>
+            <p>Sub Category</p>
+            <p>Type</p>
+            <p>Price</p>
             <p>Date</p>
             <p>Actions</p>
           </div>
-          {state.products.map((item, id) => (
-            <div className="product">
-              <p>{item.name}</p>
-              <p>{item.category}</p>
-              <p> {item.subCategory}</p>
-              <p>{item.type}</p>
-              <p> {item.price}</p>
-              <p>{moment(item.date.toDate()).fromNow()}</p>
-              <div className="actions">
-                <EditOutlinedIcon
-                  onClick={() => {
-                    setstate({
-                      ...state,
-                      modal: true,
-                      edit: true,
-                      editProduct: item,
-                    });
-                  }}
-                />
-                <DeleteOutlineOutlinedIcon
-                  onClick={() => {
-                    setstate({
-                      ...state,
-                      delete: true,
-                      deleteProduct: item,
-                    });
-                  }}
-                />
+          {state.products.map((item, id) => {
+            return (
+              <div className="product">
+                <p>{item.name}</p>
+                <p>{item.category}</p>
+                <p> {item.subcategory.name}</p>
+                <p>{item.subcategory.type || "-"}</p>
+                <p>${item.price}</p>
+                <p>{moment(item.date.toDate()).fromNow()}</p>
+                <div className="actions">
+                  <EditOutlinedIcon
+                    onClick={() => {
+                      setstate({
+                        ...state,
+                        modal: true,
+                        edit: true,
+                        editProduct: item,
+                      });
+                    }}
+                  />
+                  <DeleteOutlineOutlinedIcon
+                    onClick={() => {
+                      setstate({
+                        ...state,
+                        delete: true,
+                        deleteProduct: item,
+                      });
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       {state.modal && (
@@ -105,6 +106,7 @@ function Products() {
         <DeleteModal
           setModal={(arg) => setstate({ ...state, delete: arg })}
           deleteFunction={() => {
+            console.log(state.deleteProduct.id);
             deleteDoc(doc(db, "products", state.deleteProduct.id));
           }}
           name={state.deleteProduct.name}

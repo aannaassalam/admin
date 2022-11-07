@@ -102,6 +102,8 @@ export default function SubcategoryModal({
     }
   };
 
+  console.log(category);
+
   return (
     <div className="modal-backdrop">
       <div className="modal">
@@ -122,7 +124,7 @@ export default function SubcategoryModal({
             error={errMsg.input === "name"}
             helperText={errMsg.input === "name" && errMsg.msg}
           />
-          {category.typeslength > 0 && (
+          {category.types?.length > 0 && (
             <>
               <span className="choose-type">Choose a Type</span>
               {/* <RadioGroup
@@ -130,18 +132,21 @@ export default function SubcategoryModal({
                 onChange={(e) => setType(e.target.value)}
               > */}
               <div className="types-sec">
-                {category.types.map((typ, idx) => (
-                  <FormControlLabel
-                    key={idx}
-                    value={typ}
-                    control={<Radio size="small" checked={typ === type} />}
-                    onChange={(e) => setType(e.target.value)}
-                    label={typ}
-                    sx={{
-                      "& .MuiFormControlLabel-label": { fontSize: 14 },
-                    }}
-                  />
-                ))}
+                {category.types.map(
+                  (typ, idx) =>
+                    typ && (
+                      <FormControlLabel
+                        key={idx}
+                        value={typ}
+                        control={<Radio size="small" checked={typ === type} />}
+                        onChange={(e) => setType(e.target.value)}
+                        label={typ}
+                        sx={{
+                          "& .MuiFormControlLabel-label": { fontSize: 14 },
+                        }}
+                      />
+                    )
+                )}
               </div>
               {/* </RadioGroup> */}
             </>

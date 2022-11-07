@@ -1,4 +1,4 @@
-.addmodal-backdrop {
+/* {
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
   height: 100%;
@@ -9,9 +9,9 @@
   align-items: center;
   justify-content: center;
   z-index: 999;
-}
+} */
 
-.addmodal-backdrop .modal {
+/* .addmodal-backdrop .modal {
   max-width: 700px;
   height: 95vh;
   width: 100%;
@@ -24,9 +24,9 @@
     0 9px 46px 8px rgba(60, 75, 100, 0.12),
     0 11px 15px -7px rgba(60, 75, 100, 0.2);
   color: #fff;
-}
-.addmodal-backdrop .css-xzkq1u-MuiFormHelperText-root,
-.addmodal-backdrop .css-1oiubqy-MuiFormHelperText-root {
+} */
+.modal-backdrop .css-xzkq1u-MuiFormHelperText-root,
+.modal-backdrop .css-1oiubqy-MuiFormHelperText-root {
   color: #ff8c8c;
 }
 .addmodal-backdrop .modal .modal-header {
@@ -46,18 +46,18 @@
   font-size: 25px;
   cursor: pointer;
 }
-.addmodal-backdrop .modal .inputFields {
+.inputFields {
   width: 100%;
   display: grid;
-  padding: 20px;
+  /* padding: 20px; */
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   align-items: center;
 }
-.addmodal-backdrop .modal .inputFields .input {
+.inputFields .input {
   margin: 5px 0;
 }
-.addmodal-backdrop .modal textarea {
+.modal textarea {
   background-color: transparent;
   font-family: inherit;
   padding: 10px;
@@ -66,17 +66,44 @@
   margin-top: 10px;
   color: #fff;
 }
-.addmodal-backdrop .modal textarea.error {
+.modal textarea.error {
   color: #ff8c8c;
   border: 1px solid currentColor;
 }
-.addmodal-backdrop .modal textarea.error::placeholder {
+.modal textarea.error::placeholder {
   color: #ff8c8c;
 }
-.addmodal-backdrop .modal i {
+.modal i {
   cursor: pointer;
 }
-.addmodal-backdrop .modal button {
+
+.modal .highlights p {
+  margin-top: 10px;
+}
+
+.modal .image-button {
+  all: unset;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #121212;
+  background-color: #9791d4;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 10px 0;
+  text-align: center;
+  color: #fff;
+  width: -webkit-fill-available;
+}
+
+.modal .image-button:hover {
+  background-color: #9d97d6;
+}
+
+/*  .modal button {
   all: unset;
   padding: 10px 15px;
   display: flex;
@@ -89,15 +116,66 @@
   font-size: 14px;
   margin: 10px 0;
 }
-.addmodal-backdrop .modal .buttons {
+ .modal .buttons {
   display: flex;
 
   align-self: flex-end;
   height: 200px;
 }
-.addmodal-backdrop .modal .buttons button {
+ .modal .buttons button {
   height: max-content;
   align-self: flex-end;
   margin: 0 10px;
   padding: 10px 30px;
+} */
+
+.modal .images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+}
+
+.modal label.add-image {
+  width: 150px;
+  height: 150px;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  border-radius: 5px;
+  color: #000;
+  margin: 5px;
+}
+.modal .image-div {
+  padding: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal .image-div .remove-hover {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: calc(100% - 10px);
+  width: calc(100% - 10px);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  visibility: hidden;
+  /* font-weight: bold; */
+}
+
+.modal .image-div:hover .remove-hover {
+  visibility: visible;
+}
+
+.modal .image-div img {
+  height: 150px;
+  object-fit: contain;
 }
