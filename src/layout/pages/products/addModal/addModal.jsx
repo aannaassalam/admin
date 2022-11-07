@@ -228,11 +228,7 @@ function AddModal({ setModal, edit, editProduct }) {
                       labelId="demo-simple-select-filled-label"
                       id="demo-simple-select-filled"
                       className="input"
-                      value={
-                        edit
-                          ? state.product.subcategory
-                          : state.product.subcategory?.name
-                      }
+                      value={state.product.subcategory}
                       name="subcategory"
                       onChange={handleChange}
                     >
