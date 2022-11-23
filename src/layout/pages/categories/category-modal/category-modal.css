@@ -12,7 +12,8 @@
 }
 
 .modal-backdrop .modal {
-  max-width: 500px;
+  /* min-width: 500px; */
+  max-width: 700px;
   width: 100%;
   background-color: #3d3e47;
   display: flex;
@@ -61,7 +62,7 @@
   cursor: pointer;
 }
 
-.modal-body .types p {
+.modal-body p.add-p {
   font-size: 14px;
   color: #4693dd;
   font-weight: 500;
@@ -69,15 +70,12 @@
   cursor: pointer;
 }
 
-.modal-backdrop .modal .modal-footer {
-  padding: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-}
-
 .modal-footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .modal-footer button.cancel {

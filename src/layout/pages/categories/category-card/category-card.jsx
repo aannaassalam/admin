@@ -103,9 +103,7 @@ export default function CategoryCard({ category }) {
         )}
         {category.types.length > 0 && <p>Types</p>}
         <ul>
-          {category.types.map((type, idx) => (
-            <li key={idx}>{type}</li>
-          ))}
+          {category.types.map((type, idx) => type && <li key={idx}>{type}</li>)}
         </ul>
       </div>
 

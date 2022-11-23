@@ -5,6 +5,7 @@ import Navbar from "./layout/components/navbar/navbar";
 import Categories from "./layout/pages/categories/categories";
 import { createTheme, ThemeProvider } from "@mui/material";
 import routes from "./router/router";
+import Loader from "./layout/components/loader/loader";
 
 const darkTheme = createTheme({
   palette: {
@@ -15,6 +16,7 @@ const darkTheme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
+      <Loader />
       <div className="App">
         <Sidebar />
         <div className="container">
