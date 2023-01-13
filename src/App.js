@@ -1,11 +1,14 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Sidebar from "./layout/components/sidebar/sidebar";
 import Navbar from "./layout/components/navbar/navbar";
 import Categories from "./layout/pages/categories/categories";
 import { createTheme, ThemeProvider } from "@mui/material";
-import routes from "./router/router";
 import Loader from "./layout/components/loader/loader";
+import { useAuth } from "./layout/hooks/useAuth";
+import { useEffect } from "react";
+import privateRoutes from "./router/privateRouter";
+import publicRoutes from "./router/publicRouter";
 
 const darkTheme = createTheme({
   palette: {
@@ -14,15 +17,31 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const location = useLocation();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !user && location.pathname !== "/login") {
+      window.location.href = "/login";
+    } else if (!loading && user && location.pathname === "/login") {
+      window.location.href = "/categories";
+    }
+  }, [loading]);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Loader />
       <div className="App">
-        <Sidebar />
-        <div className="container">
-          <Navbar />
-          <Routes>
-            {routes.map((Item, key) => {
+        {location.pathname !== "/login" && <Sidebar />}
+        <div
+          className={
+            location.pathname !== "/login" ? "container" : "container login"
+          }
+        >
+          {location.pathname !== "/login" && <Navbar />}
+          <Routes location={location}>
+            <Route path="/" element={<Navigate to="/categories" />} />
+            {privateRoutes.map((Item, key) => {
               return (
                 <Route
                   exact

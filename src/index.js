@@ -5,12 +5,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import firebase from "./config";
+import AuthContext from "./layout/hooks/useAuth";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <App />
+      <AuthContext>
+        <App />
+      </AuthContext>
     </React.StrictMode>
   </BrowserRouter>
 );

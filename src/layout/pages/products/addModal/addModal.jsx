@@ -123,6 +123,7 @@ function AddModal({ setModal, edit, editProduct }) {
           description: state.product.description,
           note: state.product.note,
           sold: false,
+          status: 1,
           date: new Date(),
         })
           .then(async (returnedDoc) => {
