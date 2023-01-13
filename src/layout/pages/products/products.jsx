@@ -6,6 +6,7 @@ import {
   getDoc,
   getFirestore,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 import DeleteModal from "../../components/delete-modal/delete-modal";
 import "./products.css";
@@ -58,39 +59,41 @@ function Products() {
             <p>Date</p>
             <p>Actions</p>
           </div>
-          {state.products.map((item, id) => {
-            return (
-              <div className="product">
-                <p>{item.name}</p>
-                <p>{item.category}</p>
-                <p> {item.subcategory.name}</p>
-                <p>{item.subcategory.type || "-"}</p>
-                <p>${item.price}</p>
-                <p>{moment(item.date.toDate()).fromNow()}</p>
-                <div className="actions">
-                  <EditOutlinedIcon
-                    onClick={() => {
-                      setstate({
-                        ...state,
-                        modal: true,
-                        edit: true,
-                        editProduct: item,
-                      });
-                    }}
-                  />
-                  <DeleteOutlineOutlinedIcon
-                    onClick={() => {
-                      setstate({
-                        ...state,
-                        delete: true,
-                        deleteProduct: item,
-                      });
-                    }}
-                  />
+          {state.products
+            .filter((item) => item.status)
+            .map((item, id) => {
+              return (
+                <div className="product">
+                  <p>{item.name}</p>
+                  <p>{item.category}</p>
+                  <p> {item.subcategory.name}</p>
+                  <p>{item.subcategory.type || "-"}</p>
+                  <p>${item.price}</p>
+                  <p>{moment(item.date.toDate()).fromNow()}</p>
+                  <div className="actions">
+                    <EditOutlinedIcon
+                      onClick={() => {
+                        setstate({
+                          ...state,
+                          modal: true,
+                          edit: true,
+                          editProduct: item,
+                        });
+                      }}
+                    />
+                    <DeleteOutlineOutlinedIcon
+                      onClick={() => {
+                        setstate({
+                          ...state,
+                          delete: true,
+                          deleteProduct: item,
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
       {state.modal && (
@@ -106,8 +109,9 @@ function Products() {
         <DeleteModal
           setModal={(arg) => setstate({ ...state, delete: arg })}
           deleteFunction={() => {
-            console.log(state.deleteProduct.id);
-            deleteDoc(doc(db, "products", state.deleteProduct.id));
+            updateDoc(doc(db, "products", state.deleteProduct.id), {
+              status: 0,
+            });
           }}
           name={state.deleteProduct.name}
         />

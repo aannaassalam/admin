@@ -1,6 +1,6 @@
 import { lazy } from "react";
 
-const routes = [
+const privateRoutes = [
   {
     route: "/categories",
     id: "categories",
@@ -28,5 +28,10 @@ const routes = [
     id: "settings",
     Component: lazy(() => import("../layout/pages/settings/settings.jsx")),
   },
+  {
+    route: "/login",
+    id: "login",
+    Component: lazy(() => import("../layout/pages/login/login.jsx")),
+  },
 ];
-export default routes;
+export default privateRoutes;
