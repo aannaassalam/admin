@@ -26,10 +26,13 @@ export default function Sidebar() {
         <i className="fa-solid fa-shirt"></i>
         <p>Products</p>
       </a>
-      <div className="link">
+      <a
+        href="/orders"
+        className={paths.includes("orders") ? "link active" : "link"}
+      >
         <i className="fa-solid fa-boxes-stacked"></i>
         <p>Orders</p>
-      </div>
+      </a>
       <a
         href="/nutuyu"
         className={paths.includes("nutuyu") ? "link active" : "link"}

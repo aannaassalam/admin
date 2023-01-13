@@ -36,13 +36,21 @@
   color: #fff;
   font-size: 16px;
   grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
   padding: 10px;
+  align-items: center;
+}
+.Products .table > div p:first-child {
+  justify-self: flex-start;
+}
+.Products .table > div p {
+  margin-right: 5px;
 }
 .Products .table > div:nth-child(odd) {
   background-color: #3a3b44;
 }
 .Products .table .header {
-  font-size: 18px;
+  font-size: 14px;
   background-color: #3a3b44;
 }
 .Products .table .actions svg {

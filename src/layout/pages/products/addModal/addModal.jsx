@@ -29,7 +29,7 @@ function AddModal({ setModal, edit, editProduct }) {
     product: {
       name: edit ? editProduct.name : "",
       category: edit ? editProduct.category : "",
-      subcategory: edit ? editProduct.subcategory : "",
+      subcategory: edit ? editProduct.subcategory.id : "",
       images: edit ? editProduct.images : [],
       price: edit ? editProduct.price : 50,
       highlights: edit
@@ -57,7 +57,7 @@ function AddModal({ setModal, edit, editProduct }) {
   const db = getFirestore();
   const collec = collection(db, "products");
   var obj = state;
-
+  console.log(state.product.subcategory);
   useEffect(() => {
     onSnapshot(doc(db, "settings", "dMsgyXwanQY5tnH075J0"), (doc) => {
       setstate({ ...state, categories: doc.data().categories, loading: false });
@@ -100,7 +100,9 @@ function AddModal({ setModal, edit, editProduct }) {
         updateDoc(docref, {
           name: state.product.name,
           category: state.product.category,
-          subcategory: state.product.subcategory,
+          subcategory: state.subcategories.find(
+            (item) => item.id === state.product.subcategory
+          ),
           images: images,
           price: state.product.price,
           highlights: state.product.highlights,
@@ -112,7 +114,9 @@ function AddModal({ setModal, edit, editProduct }) {
         addDoc(collec, {
           name: state.product.name,
           category: state.product.category,
-          subcategory: state.product.subcategory,
+          subcategory: state.subcategories.find(
+            (item) => item.id === state.product.subcategory
+          ),
           images: [],
           price: state.product.price,
           highlights: state.product.highlights,
@@ -233,7 +237,7 @@ function AddModal({ setModal, edit, editProduct }) {
                       onChange={handleChange}
                     >
                       {state.subcategories.map((item) => (
-                        <MenuItem value={item}>
+                        <MenuItem value={item.id}>
                           {item.name} - {item.type}
                         </MenuItem>
                       ))}

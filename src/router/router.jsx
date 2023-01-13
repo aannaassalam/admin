@@ -19,6 +19,11 @@ const routes = [
     Component: lazy(() => import("../layout/pages/nutuyu/nutuyu.jsx")),
   },
   {
+    route: "/orders",
+    id: "orders",
+    Component: lazy(() => import("../layout/pages/orders/orders")),
+  },
+  {
     route: "/products",
     id: "products",
     Component: lazy(() => import("../layout/pages/products/products.jsx")),

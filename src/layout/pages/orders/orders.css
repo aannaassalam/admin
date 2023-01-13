@@ -1,0 +1,92 @@
+.orders {
+  padding: 1.4rem 1.75rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.orders .table {
+  width: 100%;
+  background-color: #24252f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+.orders .table > div {
+  width: 100%;
+}
+.orders .table .order {
+  width: 100%;
+  display: grid;
+  color: #fff;
+  font-size: 16px;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  align-items: center;
+  padding: 10px;
+}
+.orders .table > div:nth-child(odd) {
+  background-color: #3a3b44;
+}
+.orders .table .order div p:first-child {
+  justify-self: flex-start;
+}
+.orders .table .order p {
+  margin-right: 5px;
+}
+.orders .col-p {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start;
+  width: 100%;
+}
+.orders .col-p span {
+  font-size: 12px;
+}
+.orders .table .actions svg {
+  margin: 0 5px;
+  cursor: pointer;
+}
+.orders .table .top {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding-top: 15px;
+  border-top: 1px solid rgb(212, 211, 211);
+}
+.orders .table .top > div {
+  margin-bottom: 20px;
+}
+.orders .table .top div div p {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: center;
+}
+.orders .table .top h4 {
+  margin-bottom: 10px;
+}
+.orders .table .orderItem {
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 10px 0;
+  border-bottom: 1px dashed rgb(212, 211, 211);
+}
+.orders .table .orderItem p {
+  margin: 0 5px;
+}
+.orders .table .buttons button {
+  all: unset;
+  background-color: green;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 12px;
+  text-transform: capitalize;
+  margin: 5px;
+  cursor: pointer;
+}
+.orders .table .buttons button:last-child {
+  background-color: rgb(204, 22, 22);
+}
