@@ -8,7 +8,7 @@
 .Products .top {
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 98%;
 }
 .Products .filterHeading {
   color: #fff;
