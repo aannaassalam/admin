@@ -25,13 +25,15 @@ function Products() {
   const [state, setstate] = useState({
     modal: false,
     products: [],
-    showProducts: [],
     edit: false,
     delete: false,
     editProduct: {},
     deleteProduct: {},
     option: "All",
+    searchValue: "",
+    sortValue: "",
   });
+  const [showProducts, setshowProducts] = useState([]);
   const db = getFirestore();
   const collectionRef = collection(db, "products");
   useEffect(() => {
@@ -43,83 +45,91 @@ function Products() {
         prod.id = doc.id;
         arr.push(prod);
       });
-      setstate({ ...state, products: arr, showProducts: arr });
+      setstate({ ...state, products: arr });
+      setshowProducts(arr);
     });
   }, []);
   const handleChange = (e) => {
-    setstate(
-      {
-        ...state,
-        [e.target.name]: e.target.value,
-      },
-      console.log(state.searchValue)
-    );
-    filter();
+    console.log(e.target.value);
+    setstate({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
   };
-  const filter = () => {
+  useEffect(() => {
     var arr = [];
-    if (state.option === "All") {
-      console.log("all");
-      state.products.forEach((prod) => {
-        if (
-          prod.name.toLowerCase().includes(state.searchValue.toLowerCase()) ||
-          prod.category
-            .toLowerCase()
-            .includes(state.searchValue.toLowerCase()) ||
+    if (state.searchValue || state.option === "date") {
+      if (state.option === "All") {
+        arr = state.products.filter(
+          (prod) =>
+            prod.name.toLowerCase().includes(state.searchValue.toLowerCase()) ||
+            prod.category
+              .toLowerCase()
+              .includes(state.searchValue.toLowerCase()) ||
+            prod.subcategory?.name
+              .toLowerCase()
+              .includes(state.searchValue.toLowerCase()) ||
+            prod.subcategory?.type
+              ?.toLowerCase()
+              .includes(state.searchValue.toLowerCase())
+        );
+        console.log(arr);
+      }
+      if (state.option === "Name") {
+        arr = state.products.filter((prod) =>
+          prod.name.toLowerCase().includes(state.searchValue.toLowerCase())
+        );
+        console.log(arr);
+      }
+      if (state.option === "Categories") {
+        arr = state.products.filter((prod) =>
+          prod.category.toLowerCase().includes(state.searchValue.toLowerCase())
+        );
+        console.log(arr);
+      }
+      if (state.option === "Subcategories") {
+        arr = state.products.filter((prod) =>
           prod.subcategory?.name
             .toLowerCase()
-            .includes(state.searchValue.toLowerCase()) ||
+            .includes(state.searchValue.toLowerCase())
+        );
+        console.log(arr);
+      }
+      if (state.option === "Type") {
+        arr = state.products.filter((prod) =>
           prod.subcategory?.type
             ?.toLowerCase()
             .includes(state.searchValue.toLowerCase())
-        ) {
-          arr.push(prod);
+        );
+        console.log(arr);
+      }
+      if (state.option === "date") {
+        if (state.sortValue === "Lf") {
+          arr = state.products.sort(
+            (a, b) =>
+              moment(a.date.toDate()).format("YYYYMMDD") -
+              moment(b.date.toDate()).format("YYYYMMDD")
+          );
+        } else {
+          arr = state.products.sort(
+            (a, b) =>
+              moment(b.date.toDate()).format("YYYYMMDD") -
+              moment(a.date.toDate()).format("YYYYMMDD")
+          );
         }
-      });
+      }
+    } else {
+      arr = state.products;
     }
-    if (state.option === "Categories") {
-      console.log("cat");
+    setshowProducts(arr, console.log("ourting"));
+  }, [state.searchValue, state.option, state.sortValue]);
 
-      state.products.forEach((prod) => {
-        if (
-          prod.category.toLowerCase().includes(state.searchValue.toLowerCase())
-        ) {
-          arr.push(prod);
-        }
-      });
-    }
-    if (state.option === "Subcategories") {
-      state.products.forEach((prod) => {
-        if (
-          prod.subcategory?.name
-            .toLowerCase()
-            .includes(state.searchValue.toLowerCase())
-        ) {
-          arr.push(prod);
-        }
-      });
-    }
-    if (state.option === "Type") {
-      state.products.forEach((prod) => {
-        if (prod.subcategory?.type?.includes(state.searchValue)) {
-          arr.push(prod);
-        }
-      });
-    }
-    setstate({ showProducts: arr });
-  };
-  // console.log(state.products);
+  console.log(showProducts);
   return (
     <>
       <div className="Products">
         <div className="top">
-          <button
-            className="addNew"
-            type="button"
-            onClick={() => setstate({ ...state, modal: true })}
-          >
-            <i className="fa-solid fa-plus"></i>Add New
-          </button>
+          <h2 className="filterHeading">Search Filter :</h2>
           <div className="searchDiv">
             <FormControl variant="filled">
               <InputLabel id="demo-simple-select-standard-label">
@@ -133,22 +143,47 @@ function Products() {
                 onChange={handleChange}
               >
                 <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Name">Name</MenuItem>
                 <MenuItem value="Categories">Categories</MenuItem>
                 <MenuItem value="Subcategories">Subcategories</MenuItem>
                 <MenuItem value="Type">Type</MenuItem>
-                <MenuItem value="date">date</MenuItem>
+                <MenuItem value="date">Date</MenuItem>
               </Select>
             </FormControl>
-
-            <TextField
-              variant="filled"
-              className="input"
-              label="Search Value"
-              value={state.searchValue}
-              name="searchValue"
-              onChange={handleChange}
-              size="small"
-            />
+            {state.option === "date" ? (
+              <FormControl variant="filled">
+                <InputLabel id="demo-simple-select-standard-label">
+                  Sort By
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={state.sortValue}
+                  name="sortValue"
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Lf">Latest First</MenuItem>
+                  <MenuItem value="Ef">Earlier First</MenuItem>
+                </Select>
+              </FormControl>
+            ) : (
+              <TextField
+                variant="filled"
+                className="input"
+                label={`Enter ${state.option}`}
+                value={state.searchValue}
+                name="searchValue"
+                onChange={handleChange}
+                size="small"
+              />
+            )}
+            <button
+              className="addNew"
+              type="button"
+              onClick={() => setstate({ ...state, modal: true })}
+            >
+              <i className="fa-solid fa-plus"></i>Add New Product
+            </button>
           </div>
         </div>
         <div className="table">
@@ -161,7 +196,7 @@ function Products() {
             <p>Date</p>
             <p>Actions</p>
           </div>
-          {state.showProducts
+          {showProducts
             .filter((item) => item.status)
             .map((item, id) => {
               return (
