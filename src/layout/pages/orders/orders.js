@@ -59,7 +59,7 @@ function Orders() {
                     <span>Actions</span>
                     <div className="buttons">
                       <button>Accept</button>
-                      <button>cancel</button>
+                      <button>Decline</button>
                     </div>
                   </p>
                 </div>

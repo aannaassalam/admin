@@ -131,15 +131,12 @@ function Products() {
         <div className="top">
           <h2 className="filterHeading">Search Filter :</h2>
           <div className="searchDiv">
-            <FormControl variant="filled">
-              <InputLabel id="demo-simple-select-standard-label">
-                Search In...
-              </InputLabel>
+            <FormControl variant="outlined" size="small">
+              <InputLabel>Search In...</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
                 value={state.option}
                 name="option"
+                label="Search In..."
                 onChange={handleChange}
               >
                 <MenuItem value="All">All</MenuItem>
@@ -151,15 +148,12 @@ function Products() {
               </Select>
             </FormControl>
             {state.option === "date" ? (
-              <FormControl variant="filled">
-                <InputLabel id="demo-simple-select-standard-label">
-                  Sort By
-                </InputLabel>
+              <FormControl variant="outlined" size="small">
+                <InputLabel>Sort By</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   value={state.sortValue}
                   name="sortValue"
+                  label="Sort By"
                   onChange={handleChange}
                 >
                   <MenuItem value="Lf">Latest First</MenuItem>
@@ -168,7 +162,7 @@ function Products() {
               </FormControl>
             ) : (
               <TextField
-                variant="filled"
+                variant="outlined"
                 className="input"
                 label={`Enter ${state.option}`}
                 value={state.searchValue}
