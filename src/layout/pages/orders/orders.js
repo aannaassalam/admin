@@ -49,6 +49,10 @@ function Orders() {
                     {item?.user.user_phone}
                   </p>
                   <p className="col-p">
+                    <span>Order ID</span>
+                    {item?.id}
+                  </p>
+                  <p className="col-p">
                     <span>Order Total</span>${item?.total}
                   </p>
                   <p className="col-p">
@@ -70,7 +74,9 @@ function Orders() {
                     <h4>Shipping Address</h4>
                     <div>
                       <p>
-                        Address 1 :{item.shipping_address.address1} ,{" "}
+                        <div className="col-p">
+                          Address 1: {item.shipping_address.address1} ,{" "}
+                        </div>
                         <p className="col-p">
                           <span>City</span>
                           {item.shipping_address.city}{" "}
@@ -84,7 +90,7 @@ function Orders() {
                           {item.shipping_address.zipcode}
                         </p>
                       </p>
-                      <p> Address 2 : {item.shipping_address.address2}</p>
+                      <p> Address 2: {item.shipping_address.address2}</p>
                     </div>
                   </div>
                   <div>
@@ -114,17 +120,14 @@ function Orders() {
                   <div className="orderItem">
                     <p className="col-p">
                       <span>Product Name</span>
-                      <Link
-                        replace
-                        to={{
-                          pathname: `localhost:3000/orderDetail/${prod.id}`,
-                          state: { data: state.orders },
-                        }}
+                      <a
+                        href={`https://nutuyu72.web.app/product/${prod.id}`}
                         target="_blank"
+                        rel="noreferrer"
                         style={{ textDecoration: "underline" }}
                       >
                         {prod.name}
-                      </Link>
+                      </a>
                     </p>
                     <p className="col-p">
                       <span>Product Category</span>
