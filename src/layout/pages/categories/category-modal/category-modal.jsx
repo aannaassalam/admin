@@ -43,7 +43,13 @@ export default function CategoryModal({ setModal, category }) {
   }, [errMsg]);
 
   const addCategory = () => {
-    if (name.trim() !== "") {
+    var found = false;
+    categories.forEach((cat) => {
+      if (cat.name.toLowerCase() === name.trim().toLowerCase()) {
+        found = true;
+      }
+    });
+    if (name.trim() !== "" && !found) {
       updateDoc(docRef, {
         categories: [
           ...categories,
@@ -65,13 +71,24 @@ export default function CategoryModal({ setModal, category }) {
           setModal(false);
         })
         .catch((err) => console.log(err));
-    } else {
+    } else if (name.trim().length === 0) {
       setErrMsg({ input: "name", msg: "Please fill in Category Name" });
+    } else {
+      setErrMsg({ input: "name", msg: "Category Already Exists!" });
     }
   };
 
   const editCategory = () => {
-    if (name.trim() !== "") {
+    var found = false;
+    categories.forEach((cat) => {
+      if (
+        cat.name.toLowerCase() === name.trim().toLowerCase() &&
+        cat.name !== category.name
+      ) {
+        found = true;
+      }
+    });
+    if (name.trim() !== "" && !found) {
       updateDoc(docRef, {
         categories: categories.map((cate) => {
           if (cate.id === category.id) {
@@ -86,8 +103,10 @@ export default function CategoryModal({ setModal, category }) {
           setModal(false);
         })
         .catch((err) => console.log(err));
-    } else {
+    } else if (name.trim().length === 0) {
       setErrMsg({ input: "name", msg: "Please fill in Category Name" });
+    } else {
+      setErrMsg({ input: "name", msg: "Category Already Exists!" });
     }
   };
 

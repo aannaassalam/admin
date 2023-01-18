@@ -50,7 +50,19 @@ export default function SubcategoryModal({
             1
           }`
         : "sub1";
-    if (name.trim() !== "") {
+    var found = false;
+    subcategories.forEach((sub) => {
+      if (category.types.length > 0) {
+        if (
+          sub.name.toLowerCase() === name.trim().toLowerCase() &&
+          sub.type === type
+        )
+          found = true;
+      } else {
+        if (sub.name.toLowerCase() === name.trim().toLowerCase()) found = true;
+      }
+    });
+    if (name.trim() !== "" && !found) {
       updateDoc(docRef, {
         categories: categories.map((cate) => {
           if (cate.id === categoryID) {
@@ -71,13 +83,37 @@ export default function SubcategoryModal({
           setModal(false);
         })
         .catch((err) => console.log(err));
-    } else {
+    } else if (name.trim().length === 0) {
       setErrMsg({ input: "name", msg: "Please fill in Subcategory Name" });
+    } else {
+      setErrMsg({ input: "name", msg: "Subcategory already exists!" });
     }
   };
 
   const editSubcategory = () => {
-    if (name.trim() !== "") {
+    var found = false;
+    subcategories.forEach((sub) => {
+      if (category.types.length === 0) {
+        if (
+          sub.name.toLowerCase() === name.trim().toLowerCase() &&
+          sub.name !== subcategory.name
+        )
+          found = true;
+      } else {
+        if (
+          sub.name.toLowerCase() === name.trim().toLowerCase() &&
+          sub.type === type
+        ) {
+          if (
+            subcategory.name.toLowerCase() === name.trim().toLowerCase() &&
+            subcategory.type === type
+          )
+            found = false;
+          else found = true;
+        }
+      }
+    });
+    if (name.trim() !== "" && !found) {
       updateDoc(docRef, {
         categories: categories.map((cate) => {
           if (cate.id === categoryID) {
@@ -97,12 +133,17 @@ export default function SubcategoryModal({
           setModal(false);
         })
         .catch((err) => console.log(err));
+    } else if (name.trim().length === 0) {
+      setErrMsg({ input: "name", msg: "Please fill in Subcategory Name" });
+    } else if (category.types.length > 0) {
+      setErrMsg({
+        input: "name",
+        msg: "Subcategory already exists for this type!",
+      });
     } else {
-      setErrMsg({ input: "name", msg: "Please fill in Category Name" });
+      setErrMsg({ input: "name", msg: "Subcategory already exists!" });
     }
   };
-
-  console.log(category);
 
   return (
     <div className="modal-backdrop">
@@ -127,10 +168,6 @@ export default function SubcategoryModal({
           {category.types?.length > 0 && (
             <>
               <span className="choose-type">Choose a Type</span>
-              {/* <RadioGroup
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-              > */}
               <div className="types-sec">
                 {category.types.map(
                   (typ, idx) =>
@@ -148,7 +185,6 @@ export default function SubcategoryModal({
                     )
                 )}
               </div>
-              {/* </RadioGroup> */}
             </>
           )}
         </div>
