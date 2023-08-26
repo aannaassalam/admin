@@ -21,11 +21,11 @@ function App() {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    if (!loading && !user && location.pathname !== "/login") {
-      window.location.href = "/login";
-    } else if (!loading && user && location.pathname === "/login") {
-      window.location.href = "/categories";
-    }
+    // if (!loading && !user && location.pathname !== "/login") {
+    //   window.location.href = "/login";
+    // } else if (!loading && user && location.pathname === "/login") {
+    //   window.location.href = "/categories";
+    // }
   }, [loading]);
 
   return (
