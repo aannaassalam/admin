@@ -26,7 +26,7 @@
   color: #fff;
 }
 
-.modal-backdrop .modal .modal-header {
+.modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,12 +34,12 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.modal-backdrop .modal .modal-header h5 {
+.modal-header h5 {
   font-size: 1.25rem;
   font-weight: 500;
 }
 
-.modal-backdrop .modal .modal-header span {
+.modal-header span {
   color: rgba(255, 255, 255, 0.87);
   font-size: 25px;
   cursor: pointer;

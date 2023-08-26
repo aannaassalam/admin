@@ -11,7 +11,7 @@
   z-index: 999;
 } */
 
-/* .addmodal-backdrop .modal {
+/* .addmodal-backdrop .addProduct {
   max-width: 700px;
   height: 95vh;
   width: 100%;
@@ -25,25 +25,30 @@
     0 11px 15px -7px rgba(60, 75, 100, 0.2);
   color: #fff;
 } */
-.modal-backdrop .css-xzkq1u-MuiFormHelperText-root,
-.modal-backdrop .css-1oiubqy-MuiFormHelperText-root {
+.addProduct .css-xzkq1u-MuiFormHelperText-root,
+.addProduct .css-1oiubqy-MuiFormHelperText-root {
   color: #ff8c8c;
 }
-.addmodal-backdrop .modal .modal-header {
+.addProduct {
+  width: 100%;
+}
+.addProduct .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
-.addmodal-backdrop .modal .modal-header h5 {
+.addProduct .modal-header h5 {
   font-size: 1.25rem;
+  color: #fff;
   font-weight: 500;
 }
 
-.addmodal-backdrop .modal .modal-header span {
+.addProduct .modal-header span {
   color: rgba(255, 255, 255, 0.87);
   font-size: 25px;
+  color: #fff;
   cursor: pointer;
 }
 .inputFields {
@@ -52,36 +57,45 @@
   /* padding: 20px; */
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
-  align-items: center;
+  color: #fff;
+  align-items: flex-start;
 }
 .inputFields .input {
   margin: 5px 0;
 }
-.modal textarea {
+.addProduct textarea {
   background-color: transparent;
   font-family: inherit;
   padding: 10px;
   resize: none;
   outline: none;
+  border-radius: 5px;
   margin-top: 10px;
   color: #fff;
 }
-.modal textarea.error {
+.addProduct textarea.error {
   color: #ff8c8c;
   border: 1px solid currentColor;
 }
-.modal textarea.error::placeholder {
+.addProduct textarea.error::placeholder {
+  color: #fff;
   color: #ff8c8c;
 }
-.modal i {
+.addProduct i {
+  color: #fff;
   cursor: pointer;
 }
-
-.modal .highlights p {
+.addProduct .highlights {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.addProduct .highlights p {
+  color: #fff;
   margin-top: 10px;
 }
 
-.modal .image-button {
+.addProduct .image-button {
   all: unset;
   padding: 10px 15px;
   display: flex;
@@ -99,11 +113,37 @@
   width: -webkit-fill-available;
 }
 
-.modal .image-button:hover {
+.addProduct .image-button:hover {
   background-color: #9d97d6;
 }
+.addProduct .variances {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+.addProduct .variances .variance {
+  padding: 20px;
+  /* display: flex;
+  justify-content: space-between; */
 
-/*  .modal button {
+  border: 1px dashed #9d97d650;
+  margin: 10px 0;
+  border-radius: 10px;
+  width: 100%;
+}
+.addProduct .variances .variance .innerVariance {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+.addProduct .bottomPart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 20px;
+  color: #fff;
+}
+/*  .addProduct button {
   all: unset;
   padding: 10px 15px;
   display: flex;
@@ -116,26 +156,26 @@
   font-size: 14px;
   margin: 10px 0;
 }
- .modal .buttons {
+ .addProduct .buttons {
   display: flex;
 
   align-self: flex-end;
   height: 200px;
 }
- .modal .buttons button {
+ .addProduct .buttons button {
   height: max-content;
   align-self: flex-end;
   margin: 0 10px;
   padding: 10px 30px;
 } */
 
-.modal .images-grid {
+.images-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
 }
 
-.modal label.add-image {
+label.add-image {
   width: 150px;
   height: 150px;
   background-color: #ccc;
@@ -147,7 +187,7 @@
   color: #000;
   margin: 5px;
 }
-.modal .image-div {
+.image-div {
   padding: 5px;
   position: relative;
   display: flex;
@@ -155,7 +195,7 @@
   justify-content: center;
 }
 
-.modal .image-div .remove-hover {
+.image-div .remove-hover {
   position: absolute;
   top: 5px;
   left: 5px;
@@ -171,11 +211,11 @@
   /* font-weight: bold; */
 }
 
-.modal .image-div:hover .remove-hover {
+.image-div:hover .remove-hover {
   visibility: visible;
 }
 
-.modal .image-div img {
+.image-div img {
   height: 150px;
   object-fit: contain;
 }

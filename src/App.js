@@ -20,13 +20,13 @@ function App() {
   const location = useLocation();
   const { user, loading } = useAuth();
 
-  useEffect(() => {
-    if (!loading && !user && location.pathname !== "/login") {
-      window.location.href = "/login";
-    } else if (!loading && user && location.pathname === "/login") {
-      window.location.href = "/categories";
-    }
-  }, [loading]);
+  // useEffect(() => {
+  //   if (!loading && !user && location.pathname !== "/login") {
+  //     window.location.href = "/login";
+  //   } else if (!loading && user && location.pathname === "/login") {
+  //     window.location.href = "/categories";
+  //   }
+  // }, [loading]);
 
   return (
     <ThemeProvider theme={darkTheme}>

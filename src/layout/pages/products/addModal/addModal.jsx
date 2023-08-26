@@ -1,6 +1,8 @@
 import {
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   InputLabel,
   MenuItem,
@@ -22,6 +24,12 @@ import imageUploader from "../../../hooks/imageUploader";
 function AddModal({ setModal, edit, editProduct }) {
   const [state, setstate] = useState({
     categories: [],
+    sizesOption: edit ? (editProduct.sizes.length > 0 ? true : false) : false,
+    varianceOption: edit
+      ? editProduct.variances.length > 0
+        ? true
+        : false
+      : false,
     subcategories: [],
     loading: true,
     modal: false,
@@ -31,7 +39,18 @@ function AddModal({ setModal, edit, editProduct }) {
       category: edit ? editProduct.category : "",
       subcategory: edit ? editProduct.subcategory.id : "",
       images: edit ? editProduct.images : [],
-      price: edit ? editProduct.price : 50,
+      mprice: edit ? editProduct.markedPrice : 50,
+      skuId: edit ? editProduct.skuId : "",
+      sprice: edit ? editProduct.sellingPrice : 30,
+      sizes: edit
+        ? editProduct.sizes
+        : [
+            { name: "XS", quantity: 5 },
+            { name: "S", quantity: 2 },
+            { name: "M", quantity: 8 },
+            { name: "L", quantity: 9 },
+            { name: "XL", quantity: 10 },
+          ],
       highlights: edit
         ? editProduct.highlights
         : [
@@ -53,7 +72,7 @@ function AddModal({ setModal, edit, editProduct }) {
     imageModal: false,
     localImages: [],
   });
-
+  const [variances, setVariances] = useState([]);
   const db = getFirestore();
   const collec = collection(db, "products");
   var obj = state;
@@ -66,7 +85,8 @@ function AddModal({ setModal, edit, editProduct }) {
     if (edit && !state.loading) {
       var arr = [];
       state.categories.forEach((item) => {
-        if (item.name === state.product.category) arr = item.subcategories;
+        if (item.name.toLowerCase() === state.product.category.toLowerCase())
+          arr = item.subcategories;
       });
       obj.subcategories = arr;
       setstate({ ...obj });
@@ -86,7 +106,8 @@ function AddModal({ setModal, edit, editProduct }) {
       state.product.category &&
       state.product.subcategory &&
       state.product.name &&
-      state.product.price &&
+      state.product.mprice &&
+      state.product.sprice &&
       state.product.description &&
       state.product.highlights.length > 0 &&
       state.product.images.length > 0
@@ -104,8 +125,11 @@ function AddModal({ setModal, edit, editProduct }) {
             (item) => item.id === state.product.subcategory
           ),
           images: images,
-          price: state.product.price,
+          skuId: state.product.skuId,
+          markedPrice: state.product.mprice,
+          sellingPrice: state.product.sprice,
           highlights: state.product.highlights,
+          sizes: state.sizesOption ? state.product.sizes : [],
           description: state.product.description,
           note: state.product.note,
         });
@@ -118,11 +142,15 @@ function AddModal({ setModal, edit, editProduct }) {
             (item) => item.id === state.product.subcategory
           ),
           images: [],
-          price: state.product.price,
+          skuId: state.product.skuId,
+          markedPrice: state.product.mprice,
+          sellingPrice: state.product.sprice,
           highlights: state.product.highlights,
+          sizes: state.sizesOption ? state.product.sizes : [],
           description: state.product.description,
           note: state.product.note,
           sold: false,
+          variance: state.varianceOption ? variances : [],
           status: 1,
           date: new Date(),
         })
@@ -156,10 +184,15 @@ function AddModal({ setModal, edit, editProduct }) {
         ...state,
         err: { input: "name", msg: "Please Enter Product Name" },
       });
-    } else if (!state.product.price) {
+    } else if (!state.product.mprice) {
       setstate({
         ...state,
-        err: { input: "price", msg: "Please Enter Product Price" },
+        err: { input: "mprice", msg: "Please Enter Product Marked Price" },
+      });
+    } else if (!state.product.sprice) {
+      setstate({
+        ...state,
+        err: { input: "sprice", msg: "Please Enter Product Selling Price" },
       });
     } else if (!state.product.description) {
       setstate({
@@ -178,13 +211,13 @@ function AddModal({ setModal, edit, editProduct }) {
       });
     }
   };
-
+  console.log(variances);
   return (
-    <div className="modal-backdrop">
+    <div className="Products">
       {state.loading ? (
         <div className="modal"></div>
       ) : (
-        <div className="modal">
+        <div className="addProduct">
           <div className="modal-header">
             <h5>Add Product</h5>
             <span onClick={() => setModal(false)}>
@@ -213,7 +246,7 @@ function AddModal({ setModal, edit, editProduct }) {
                         obj.product.subcategory = "";
                         setstate(obj);
                       }}
-                      value={item.name}
+                      value={item.name.toLowerCase()}
                     >
                       {item.name}
                     </MenuItem>
@@ -238,8 +271,9 @@ function AddModal({ setModal, edit, editProduct }) {
                       onChange={handleChange}
                     >
                       {state.subcategories.map((item) => (
-                        <MenuItem value={item.id}>
-                          {item.name} - {item.type}
+                        <MenuItem value={item.id.toLowerCase()}>
+                          {item.name}
+                          {item.type && " - " + item.type}
                         </MenuItem>
                       ))}
                     </Select>
@@ -273,19 +307,45 @@ function AddModal({ setModal, edit, editProduct }) {
                 // fullWidth
                 error={state.err.input === "name"}
                 helperText={state.err.input === "name" && state.err.msg}
+              />{" "}
+              <TextField
+                className="input"
+                variant="filled"
+                label="Sku Id"
+                type="text"
+                value={state.product.skuId}
+                name="skuId"
+                onChange={handleChange}
+                size="small"
+                // fullWidth
+                // error={state.err.input === "price"}
+                // helperText={state.err.input === "price" && state.err.msg}
               />
               <TextField
                 className="input"
                 variant="filled"
-                label="Product  Price"
+                label="Product Marked Price"
                 type="number"
-                value={state.product.price}
-                name="price"
+                value={state.product.mprice}
+                name="mprice"
                 onChange={handleChange}
                 size="small"
                 // fullWidth
-                error={state.err.input === "price"}
-                helperText={state.err.input === "price" && state.err.msg}
+                error={state.err.input === "mprice"}
+                helperText={state.err.input === "mprice" && state.err.msg}
+              />
+              <TextField
+                className="input"
+                variant="filled"
+                label="Product Selling Price"
+                type="number"
+                value={state.product.sprice}
+                name="sprice"
+                onChange={handleChange}
+                size="small"
+                // fullWidth
+                error={state.err.input === "sprice"}
+                helperText={state.err.input === "sprice" && state.err.msg}
               />
               <div style={{ display: "flex", flexDirection: "column" }}>
                 Note:
@@ -320,7 +380,6 @@ function AddModal({ setModal, edit, editProduct }) {
                 className="highlights"
                 style={{
                   alignSelf: "flex-start",
-                  maxHeight: "-webkit-fill-available",
                   // overflowY: "auto",
                 }}
               >
@@ -331,7 +390,7 @@ function AddModal({ setModal, edit, editProduct }) {
                 <div
                   style={{
                     alignSelf: "flex-start",
-                    maxHeight: "140px",
+                    // maxHeight: "140px",
                     overflowY: "auto",
                   }}
                 >
@@ -353,12 +412,11 @@ function AddModal({ setModal, edit, editProduct }) {
                         size="small"
                         value={item.key}
                         onChange={(e) => {
-                          var arr = { ...state.product.highlights };
+                          var arr = [...state.product.highlights];
                           arr[id].key = e.target.value;
                           setstate({
                             ...state,
-                            product: { ...state.product },
-                            highlights: arr,
+                            product: { ...state.product, highlights: arr },
                           });
                         }}
                       />
@@ -371,12 +429,11 @@ function AddModal({ setModal, edit, editProduct }) {
                         value={item.value}
                         label="value"
                         onChange={(e) => {
-                          var arr = { ...state.product.highlights };
+                          var arr = [...state.product.highlights];
                           arr[id].value = e.target.value;
                           setstate({
                             ...state,
-                            product: { ...state.product },
-                            highlights: arr,
+                            product: { ...state.product, highlights: arr },
                           });
                         }}
                       />
@@ -414,6 +471,131 @@ function AddModal({ setModal, edit, editProduct }) {
                   [ + Add Highlights]
                 </p>
               </div>
+              {/* {sizes} */}
+              {state.sizesOption ? (
+                <div
+                  className="highlights"
+                  style={{
+                    alignSelf: "flex-start",
+                    // overflowY: "auto",
+                  }}
+                >
+                  Sizes:
+                  <FormHelperText>
+                    {state.err.input === "sizes" ? state.err.msg : null}
+                  </FormHelperText>
+                  <div
+                    style={{
+                      alignSelf: "flex-start",
+                      // maxHeight: "140px",
+                      overflowY: "auto",
+                    }}
+                  >
+                    {state.product.sizes.map((item, id) => (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          // gridTemplateColumns: "1fr 1fr",
+                          // gridGap: "10px",
+                        }}
+                      >
+                        <span style={{ marginRight: 10 }}>{id + 1}</span>
+                        <TextField
+                          className="input"
+                          variant="filled"
+                          label="Name"
+                          placeholder="Eg:XL"
+                          style={{ marginRight: "10px" }}
+                          size="small"
+                          value={item.name}
+                          onChange={(e) => {
+                            var arr = [...state.product.sizes];
+                            arr[id].name = e.target.value;
+                            setstate({
+                              ...state,
+                              product: { ...state.product, sizes: arr },
+                            });
+                          }}
+                        />
+
+                        <TextField
+                          className="input"
+                          type="number"
+                          variant="filled"
+                          style={{ marginRight: "10px" }}
+                          size="small"
+                          value={item.quantity}
+                          label="Quantity"
+                          onChange={(e) => {
+                            console.log(typeof e.target.value);
+                            var arr = [...state.product.sizes];
+                            arr[id].quantity = parseInt(e.target.value);
+                            setstate({
+                              ...state,
+                              product: { ...state.product, sizes: arr },
+                            });
+                          }}
+                        />
+                        <i
+                          onClick={() => {
+                            var arr = state.product.sizes.filter(
+                              (it, idx) => idx !== id
+                            );
+                            setstate({
+                              ...state,
+                              product: { ...state.product, sizes: arr },
+                            });
+                          }}
+                          className="fa-solid fa-times"
+                        ></i>
+                      </div>
+                    ))}
+                  </div>
+                  <p
+                    className="add-p"
+                    onClick={() => {
+                      setstate({
+                        ...state,
+                        product: {
+                          ...state.product,
+                          sizes: [
+                            ...state.product.sizes,
+                            { name: "", quantity: null },
+                          ],
+                        },
+                        err: { input: "", msg: "" },
+                      });
+                    }}
+                  >
+                    [ + Add Size]
+                  </p>
+                  <FormControlLabel
+                    // style={{marginLeft:"auto"}}
+                    control={
+                      <Checkbox
+                        checked={state.sizesOption}
+                        onChange={() =>
+                          setstate({ ...state, sizesOption: false })
+                        }
+                      />
+                    }
+                    label="Add Sizes"
+                  />
+                </div>
+              ) : (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.sizesOption}
+                      onChange={() =>
+                        setstate({ ...state, sizesOption: !state.sizesOption })
+                      }
+                    />
+                  }
+                  label="Add Sizes"
+                />
+              )}
               <div>
                 <button
                   className="image-button"
@@ -433,6 +615,351 @@ function AddModal({ setModal, edit, editProduct }) {
                 </FormHelperText>
               </div>
             </div>
+            {state.varianceOption ? (
+              <div className="variances">
+                <h2 style={{ color: "#fff" }}>Variances</h2>
+                <FormControlLabel
+                  style={{ color: "#fff" }}
+                  control={
+                    <Checkbox
+                      checked={state.varianceOption}
+                      onChange={() =>
+                        setstate({
+                          ...state,
+                          varianceOption: !state.varianceOption,
+                        })
+                      }
+                    />
+                  }
+                  label="Add Variance"
+                />
+                {variances.map((item, id) => (
+                  <div className="variance">
+                    <h2
+                      style={{
+                        color: "#fff",
+                        marginBottom: 20,
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {`#${id + 1}`}
+                      <i
+                        onClick={() => {
+                          var arr = variances.filter((it, idx) => idx !== id);
+                          setVariances(arr);
+                        }}
+                        className="fa-solid fa-times"
+                      ></i>
+                    </h2>
+                    <div className="innerVariance">
+                      <TextField
+                        className="input"
+                        variant="filled"
+                        label="Sku Id"
+                        type="text"
+                        value={item.skuId}
+                        name="skuId"
+                        onChange={(e) => {
+                          let arr = [...variances];
+                          arr[id].skuId = e.target.value;
+                          setVariances(arr);
+                        }}
+                        size="small"
+                        // fullWidth
+                        // error={state.err.input === "price"}
+                        // helperText={state.err.input === "price" && state.err.msg}
+                      />
+                      <TextField
+                        className="input"
+                        variant="filled"
+                        label="Product Marked Price"
+                        type="number"
+                        value={item.markedPrice}
+                        name="mprice"
+                        onChange={(e) => {
+                          let arr = [...variances];
+                          arr[id].markedPrice = parseInt(e.target.value);
+                          setVariances(arr);
+                        }}
+                        size="small"
+                        // fullWidth
+                        error={state.err.input === "mprice"}
+                        helperText={
+                          state.err.input === "mprice" && state.err.msg
+                        }
+                      />
+                      <TextField
+                        className="input"
+                        variant="filled"
+                        label="Product Selling Price"
+                        type="number"
+                        value={item.sellingPrice}
+                        name="sprice"
+                        onChange={(e) => {
+                          let arr = [...variances];
+                          arr[id].sellingPrice = parseInt(e.target.value);
+                          setVariances(arr);
+                        }}
+                        size="small"
+                        // fullWidth
+                        error={state.err.input === "sprice"}
+                        helperText={
+                          state.err.input === "sprice" && state.err.msg
+                        }
+                      />
+                    </div>
+                    <div className="bottomPart">
+                      <div className="images">
+                        <h2 style={{ color: "#fff", marginBottom: 20 }}>
+                          Images
+                        </h2>
+                        <FormHelperText>
+                          {state.err.input === "Image Modal"
+                            ? state.err.msg
+                            : null}
+                        </FormHelperText>
+                        <div className="images-grid">
+                          {item.images.map((image) => {
+                            console.log(typeof image.image);
+                            return (
+                              <div className="image-div" key={image.id}>
+                                <img
+                                  src={
+                                    typeof image.image === "string"
+                                      ? image.image
+                                      : URL.createObjectURL(image.image)
+                                  }
+                                  alt="Product"
+                                />
+                                <div className="remove-hover">
+                                  <span
+                                    onClick={() =>
+                                      // setstate((prev) => ({
+                                      //   ...prev,
+                                      //   localImages: prev.localImages.filter(
+                                      //     (img) => img.id !== image.id
+                                      //   ),
+                                      // }))
+                                      {
+                                        let arr = [...variances];
+                                        arr[id].images = arr[id].images.filter(
+                                          (img) => img.id !== image.id
+                                        );
+                                        setVariances(arr);
+                                      }
+                                    }
+                                  >
+                                    REMOVE
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                          <label className="add-image">
+                            <input
+                              type="file"
+                              style={{ display: "none" }}
+                              accept="image/*"
+                              onChange={(e) => {
+                                if (e.target.files[0].size > 300000) {
+                                  setstate((prev) => ({
+                                    ...prev,
+                                    err: {
+                                      input: "Image Modal",
+                                      msg: "Image size should not exceed 300KB",
+                                    },
+                                  }));
+                                } else {
+                                  let arr = [...variances];
+                                  arr[id].images = [
+                                    ...arr[id].images,
+                                    {
+                                      image: e.target.files[0],
+                                      id:
+                                        arr[id].images[
+                                          arr[id].images.length - 1
+                                        ]?.id + 1 || 1,
+                                    },
+                                  ];
+                                  setVariances(arr);
+                                  setstate((prev) => ({
+                                    ...prev,
+                                    err: {
+                                      input: "",
+                                      msg: "",
+                                    },
+                                  }));
+                                }
+                              }}
+                            />
+                            <i className="fa-solid fa-plus"></i>
+                          </label>
+                        </div>
+                      </div>
+                      {item.sizesOption ? (
+                        <div
+                          className="highlights"
+                          style={{
+                            alignSelf: "flex-start",
+                            marginLeft: "20px",
+                            // overflowY: "auto",
+                          }}
+                        >
+                          Sizes:
+                          <FormHelperText>
+                            {state.err.input === "sizes" ? state.err.msg : null}
+                          </FormHelperText>
+                          <div
+                            style={{
+                              alignSelf: "flex-start",
+                              // maxHeight: "140px",
+                              overflowY: "auto",
+                            }}
+                          >
+                            {item.sizes.map((size, idx) => (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  marginBottom: 10,
+                                  // gridTemplateColumns: "1fr 1fr",
+                                  // gridGap: "10px",
+                                }}
+                              >
+                                <span style={{ marginRight: 10 }}>
+                                  {idx + 1}
+                                </span>
+                                <TextField
+                                  className="input"
+                                  variant="filled"
+                                  label="Name"
+                                  placeholder="Eg:XL"
+                                  style={{ marginRight: "10px" }}
+                                  size="small"
+                                  value={size.name}
+                                  onChange={(e) => {
+                                    var arr = [...variances];
+                                    arr[id].sizes[idx].name = e.target.value;
+                                    setVariances(arr);
+                                  }}
+                                />
+
+                                <TextField
+                                  className="input"
+                                  type="number"
+                                  variant="filled"
+                                  style={{ marginRight: "10px" }}
+                                  size="small"
+                                  value={size.quantity}
+                                  label="Quantity"
+                                  onChange={(e) => {
+                                    console.log(typeof e.target.value);
+                                    var arr = [...variances];
+                                    arr[id].sizes[idx].quantity = parseInt(
+                                      e.target.value
+                                    );
+                                    setVariances(arr);
+                                  }}
+                                />
+                                <i
+                                  onClick={() => {
+                                    var arr = state.product.sizes.filter(
+                                      (it, idxx) => idxx !== idx
+                                    );
+                                    setstate({
+                                      ...state,
+                                      product: { ...state.product, sizes: arr },
+                                    });
+                                  }}
+                                  className="fa-solid fa-times"
+                                ></i>
+                              </div>
+                            ))}
+                          </div>
+                          <p
+                            className="add-p"
+                            onClick={() => {
+                              let arr = [...variances];
+                              arr[id].sizes = [
+                                ...arr[id].sizes,
+                                { name: "", quantity: null },
+                              ];
+                              setVariances(arr);
+                            }}
+                          >
+                            [ + Add Size]
+                          </p>
+                          <FormControlLabel
+                            // style={{marginLeft:"auto"}}
+                            control={
+                              <Checkbox
+                                checked={item.sizesOption}
+                                onChange={() => {
+                                  let arr = [...variances];
+                                  arr[id].sizesOption = !arr[id].sizesOption;
+                                  setVariances(arr);
+                                }}
+                              />
+                            }
+                            label="Add Sizes"
+                          />
+                        </div>
+                      ) : (
+                        <FormControlLabel
+                          // style={{marginLeft:"auto"}}
+                          control={
+                            <Checkbox
+                              checked={item.sizesOption}
+                              onChange={() => {
+                                let arr = [...variances];
+                                arr[id].sizesOption = !arr[id].sizesOption;
+                                setVariances(arr);
+                              }}
+                            />
+                          }
+                          label="Add Sizes"
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <p
+                  className="add-p"
+                  onClick={() => {
+                    setVariances([
+                      ...variances,
+                      {
+                        skuId: "",
+                        images: [],
+                        markedPrice: "",
+                        sellingPrice: "",
+                        sizes: [],
+                        sizesOption: false,
+                      },
+                    ]);
+                  }}
+                >
+                  [ + Add Variance]
+                </p>
+              </div>
+            ) : (
+              <FormControlLabel
+                style={{ color: "#fff" }}
+                control={
+                  <Checkbox
+                    checked={state.varianceOption}
+                    onChange={() => {
+                      setstate({
+                        ...state,
+                        varianceOption: !state.varianceOption,
+                      });
+                    }}
+                  />
+                }
+                label="Add Variance"
+              />
+            )}
           </div>
           <div className="modal-footer">
             <button
@@ -449,6 +976,7 @@ function AddModal({ setModal, edit, editProduct }) {
           </div>
         </div>
       )}
+
       {state.imageModal && (
         <div className="modal-backdrop">
           <div className="modal">
