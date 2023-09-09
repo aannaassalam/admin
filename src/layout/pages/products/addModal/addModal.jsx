@@ -13,6 +13,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getFirestore,
   onSnapshot,
   updateDoc,
@@ -24,9 +25,9 @@ import imageUploader from "../../../hooks/imageUploader";
 function AddModal({ setModal, edit, editProduct }) {
   const [state, setstate] = useState({
     categories: [],
-    sizesOption: edit ? (editProduct.sizes.length > 0 ? true : false) : false,
+    sizesOption: edit ? (editProduct?.sizes?.length > 0 ? true : false) : false,
     varianceOption: edit
-      ? editProduct.variances.length > 0
+      ? editProduct.variances?.length > 0
         ? true
         : false
       : false,
@@ -43,7 +44,7 @@ function AddModal({ setModal, edit, editProduct }) {
       skuId: edit ? editProduct.skuId : "",
       sprice: edit ? editProduct.sellingPrice : 30,
       sizes: edit
-        ? editProduct.sizes
+        ? editProduct?.sizes
         : [
             { name: "XS", quantity: 5 },
             { name: "S", quantity: 2 },
@@ -118,6 +119,15 @@ function AddModal({ setModal, edit, editProduct }) {
           state.product.images,
           editProduct.id
         );
+        let arr=[...variances]
+        arr.forEach(async(item,id)=>{
+          arr[id].images=await imageUploader(
+            item.images,
+            editProduct.id
+          )
+        })
+        setVariances(arr)
+        console.log(variances)
         updateDoc(docref, {
           name: state.product.name,
           category: state.product.category,
@@ -125,7 +135,7 @@ function AddModal({ setModal, edit, editProduct }) {
             (item) => item.id === state.product.subcategory
           ),
           images: images,
-          skuId: state.product.skuId,
+          skuId: state.product.skuId||"",
           markedPrice: state.product.mprice,
           sellingPrice: state.product.sprice,
           highlights: state.product.highlights,
@@ -142,7 +152,7 @@ function AddModal({ setModal, edit, editProduct }) {
             (item) => item.id === state.product.subcategory
           ),
           images: [],
-          skuId: state.product.skuId,
+          skuId: state.product.skuId||"",
           markedPrice: state.product.mprice,
           sellingPrice: state.product.sprice,
           highlights: state.product.highlights,
@@ -150,7 +160,7 @@ function AddModal({ setModal, edit, editProduct }) {
           description: state.product.description,
           note: state.product.note,
           sold: false,
-          variance: state.varianceOption ? variances : [],
+          variances:  [],
           status: 1,
           date: new Date(),
         })
@@ -159,13 +169,38 @@ function AddModal({ setModal, edit, editProduct }) {
               state.product.images,
               returnedDoc.id
             );
-            updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
+            console.log(returnedDoc.data);
+              updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
               images: images,
             })
               .then(() => {
-                console.log("added");
+                console.log("images added");
               })
               .catch((err) => console.log(err));
+            let arr=[...variances]
+            arr.forEach(async(item,id)=>{
+              arr[id].images=await imageUploader(
+                item.images,
+                returnedDoc.id
+              );
+             await addDoc(collection(getFirestore(),"variances"),{
+                skuId:arr[id].skuId,
+                productId:returnedDoc.id,
+                sellingPrice:arr[id].sellingPrice,
+                markedPrice:arr[id].markedPrice,
+                images:arr[id].images,
+                sizes:arr[id].sizes
+              }).then(async(variant)=>{
+                console.log("variance added");
+               await getDoc(doc(getFirestore(),"products",returnedDoc.id))
+               .then( docc=>{
+                updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
+                    variances:[...docc.data().variances,variant.id]
+                  }).then(console.log("id added"))
+                })
+              })
+              console.log(arr);
+            });
           })
           .catch((err) => console.log(err));
       }
@@ -212,6 +247,7 @@ function AddModal({ setModal, edit, editProduct }) {
     }
   };
   console.log(variances);
+  console.log(state.product)
   return (
     <div className="Products">
       {state.loading ? (
@@ -864,13 +900,11 @@ function AddModal({ setModal, edit, editProduct }) {
                                 />
                                 <i
                                   onClick={() => {
-                                    var arr = state.product.sizes.filter(
+                                    var arr = [...variances];
+                                     arr[id].sizes = arr[id].sizes.filter(
                                       (it, idxx) => idxx !== idx
                                     );
-                                    setstate({
-                                      ...state,
-                                      product: { ...state.product, sizes: arr },
-                                    });
+                                    setVariances(arr)
                                   }}
                                   className="fa-solid fa-times"
                                 ></i>
