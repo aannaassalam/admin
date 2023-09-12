@@ -73,7 +73,7 @@ function AddModal({ setModal, edit, editProduct }) {
     imageModal: false,
     localImages: [],
   });
-  const [variances, setVariances] = useState([]);
+  const [variances, setVariances] = useState(edit?editProduct.variances:[]);
   const db = getFirestore();
   const collec = collection(db, "products");
   var obj = state;
@@ -92,8 +92,30 @@ function AddModal({ setModal, edit, editProduct }) {
       obj.subcategories = arr;
       setstate({ ...obj });
     }
+    
   }, [state.loading]);
+// useEffect(()=>{
+//   async function init(){
+//   if(edit)
+//   {  
+//     setstate({...state,loading:true})
+//     console.log(state.loading,edit);
+//     console.log(state.loading,edit);
 
+//       let arr2=[]
+//      await editProduct.variances.forEach(async(item,id)=>{
+//        await getDoc(doc(getFirestore(),"variances",item))
+//        .then(doc2=>{
+//         console.log(doc2.data().skuId);
+//         setVariances([...variances,doc2.data()])})
+//        console.log(arr2);
+//       if(id===editProduct.variances.length-1) {
+//         console.log(id);
+//         setstate({...state,loading:false})}
+//       })
+// }}
+// init()
+// },[state.loading])
   const handleChange = (e) => {
     setstate({
       ...state,
@@ -142,6 +164,7 @@ function AddModal({ setModal, edit, editProduct }) {
           sizes: state.sizesOption ? state.product.sizes : [],
           description: state.product.description,
           note: state.product.note,
+          variances
         });
         setModal();
       } else {
@@ -155,7 +178,7 @@ function AddModal({ setModal, edit, editProduct }) {
           skuId: state.product.skuId||"",
           markedPrice: state.product.mprice,
           sellingPrice: state.product.sprice,
-          highlights: state.product.highlights,
+          highlights: state.product.highlights||[],
           sizes: state.sizesOption ? state.product.sizes : [],
           description: state.product.description,
           note: state.product.note,
@@ -169,7 +192,6 @@ function AddModal({ setModal, edit, editProduct }) {
               state.product.images,
               returnedDoc.id
             );
-            console.log(returnedDoc.data);
               updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
               images: images,
             })
@@ -183,24 +205,29 @@ function AddModal({ setModal, edit, editProduct }) {
                 item.images,
                 returnedDoc.id
               );
-             await addDoc(collection(getFirestore(),"variances"),{
-                skuId:arr[id].skuId,
-                productId:returnedDoc.id,
-                sellingPrice:arr[id].sellingPrice,
-                markedPrice:arr[id].markedPrice,
-                images:arr[id].images,
-                sizes:arr[id].sizes
-              }).then(async(variant)=>{
-                console.log("variance added");
-               await getDoc(doc(getFirestore(),"products",returnedDoc.id))
-               .then( docc=>{
-                updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
-                    variances:[...docc.data().variances,variant.id]
-                  }).then(console.log("id added"))
-                })
-              })
               console.log(arr);
+              setVariances(arr);
+              await updateDoc(doc(getFirestore(),"products",returnedDoc.id),{
+                variances:variances
+              }).then(console.log("variances added"))
             });
+            //  await addDoc(collection(getFirestore(),"variances"),{
+            //     skuId:arr[id].skuId,
+            //     productId:returnedDoc.id,
+            //     sellingPrice:arr[id].sellingPrice,
+            //     markedPrice:arr[id].markedPrice,
+            //     images:arr[id].images,
+            //     sizes:arr[id].sizes
+            //   }).then(async(variant)=>{
+            //     console.log("variance added");
+            //    await getDoc(doc(getFirestore(),"products",returnedDoc.id))
+            //    .then( docc=>{
+            //     updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
+            //         variances:[...docc.data().variances,variant.id]
+            //       }).then(console.log("id added"))
+            //     })
+            //   })
+         
           })
           .catch((err) => console.log(err));
       }
@@ -255,8 +282,8 @@ function AddModal({ setModal, edit, editProduct }) {
       ) : (
         <div className="addProduct">
           <div className="modal-header">
-            <h5>Add Product</h5>
-            <span onClick={() => setModal(false)}>
+            <h5>{edit?"Edit":"Add"} Product</h5>
+            <span onClick={() => setModal()}>
               <i className="fa-solid fa-times"></i>
             </span>
           </div>

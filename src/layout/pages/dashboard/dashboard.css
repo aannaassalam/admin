@@ -1,0 +1,54 @@
+.dashboard {
+  padding: 1.4rem 1.75rem;
+}
+.dashboard .top {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.dashboard .top .insightCard {
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 95%;
+  color: #fff;
+  position: relative;
+}
+.dashboard .top .insightCard i {
+  position: absolute;
+  top: -10px;
+  left: -8px;
+  border: 8px solid #181924;
+  border-radius: 20%;
+  padding: 10px;
+  font-size: 25px;
+}
+.dashboard .top .insightCard h3 {
+  margin-top: 40px;
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+.dashboard .bottom h2 {
+  color: #fff;
+  margin: 20px 0;
+}
+.dashboard .bottom .charts {
+  background-color: #2a2b36;
+  width: 100%;
+  padding: 30px 10px;
+  display: flex;
+  /* height: 200px; */
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  color: #fff;
+}
+.dashboard .bottom .charts .chartContainer {
+  height: 300px;
+  width: 100%;
+}
+.dashboard .bottom .charts .chartHeading {
+  margin-left: 25px;
+  margin-bottom: 10px;
+}

@@ -7,6 +7,11 @@ const privateRoutes = [
     Component: lazy(() => import("../layout/pages/categories/categories.jsx")),
   },
   {
+    route: "/dashboard",
+    id: "dashboard",
+    Component: lazy(() => import("../layout/pages/dashboard/dashboard.jsx")),
+  },
+  {
     route: "/categories/:category",
     id: "subcategory",
     Component: lazy(() =>

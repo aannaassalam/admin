@@ -40,7 +40,7 @@ function App() {
         >
           {location.pathname !== "/login" && <Navbar />}
           <Routes location={location}>
-            <Route path="/" element={<Navigate to="/categories" />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
             {privateRoutes.map((Item, key) => {
               return (
                 <Route

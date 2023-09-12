@@ -11,7 +11,13 @@ export default function Sidebar() {
       <div className="logo">
         <h1>NuTuYu72</h1>
       </div>
-
+      <a
+        href="/dashboard"
+        className={paths.includes("dashboard") ? "link active" : "link"}
+      >
+       <i class="fa-solid fa-chart-line"></i>
+        <p>Dashboard</p>
+      </a>
       <a
         href="/categories"
         className={paths.includes("categories") ? "link active" : "link"}
@@ -33,13 +39,13 @@ export default function Sidebar() {
         <i className="fa-solid fa-boxes-stacked"></i>
         <p>Orders</p>
       </a>
-      <a
+      {/* <a
         href="/nutuyu"
         className={paths.includes("nutuyu") ? "link active" : "link"}
       >
         <i className="fa-solid fa-hashtag"></i>
         <p>Nutuyu</p>
-      </a>
+      </a> */}
       <a
         href="/settings"
         className={paths.includes("settings") ? "link active" : "link"}
