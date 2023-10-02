@@ -21,16 +21,18 @@ import {
 import React, { useState, useEffect } from "react";
 import "./addModal.css";
 import imageUploader from "../../../hooks/imageUploader";
-
+import { v4 as uuid } from "uuid";
 function AddModal({ setModal, edit, editProduct }) {
   const [state, setstate] = useState({
     categories: [],
     sizesOption: edit ? (editProduct?.sizes?.length > 0 ? true : false) : false,
-    varianceOption: edit
-      ? editProduct.variances?.length > 0
-        ? true
-        : false
-      : false,
+    varianceOption:
+      // edit
+      //   ? editProduct.variances?.length > 0
+      //     ? true
+      //     : false
+      //   : false,
+      true,
     subcategories: [],
     loading: true,
     modal: false,
@@ -73,7 +75,7 @@ function AddModal({ setModal, edit, editProduct }) {
     imageModal: false,
     localImages: [],
   });
-  const [variances, setVariances] = useState(edit?editProduct.variances:[]);
+  const [variances, setVariances] = useState(edit ? editProduct.variances : []);
   const db = getFirestore();
   const collec = collection(db, "products");
   var obj = state;
@@ -92,30 +94,7 @@ function AddModal({ setModal, edit, editProduct }) {
       obj.subcategories = arr;
       setstate({ ...obj });
     }
-    
   }, [state.loading]);
-// useEffect(()=>{
-//   async function init(){
-//   if(edit)
-//   {  
-//     setstate({...state,loading:true})
-//     console.log(state.loading,edit);
-//     console.log(state.loading,edit);
-
-//       let arr2=[]
-//      await editProduct.variances.forEach(async(item,id)=>{
-//        await getDoc(doc(getFirestore(),"variances",item))
-//        .then(doc2=>{
-//         console.log(doc2.data().skuId);
-//         setVariances([...variances,doc2.data()])})
-//        console.log(arr2);
-//       if(id===editProduct.variances.length-1) {
-//         console.log(id);
-//         setstate({...state,loading:false})}
-//       })
-// }}
-// init()
-// },[state.loading])
   const handleChange = (e) => {
     setstate({
       ...state,
@@ -141,15 +120,12 @@ function AddModal({ setModal, edit, editProduct }) {
           state.product.images,
           editProduct.id
         );
-        let arr=[...variances]
-        arr.forEach(async(item,id)=>{
-          arr[id].images=await imageUploader(
-            item.images,
-            editProduct.id
-          )
-        })
-        setVariances(arr)
-        console.log(variances)
+        let arr = [...variances];
+        arr.forEach(async (item, id) => {
+          arr[id].images = await imageUploader(item.images, editProduct.id);
+        });
+        setVariances(arr);
+        console.log(variances);
         updateDoc(docref, {
           name: state.product.name,
           category: state.product.category,
@@ -157,14 +133,14 @@ function AddModal({ setModal, edit, editProduct }) {
             (item) => item.id === state.product.subcategory
           ),
           images: images,
-          skuId: state.product.skuId||"",
+          skuId: state.product.skuId || "",
           markedPrice: state.product.mprice,
           sellingPrice: state.product.sprice,
           highlights: state.product.highlights,
           sizes: state.sizesOption ? state.product.sizes : [],
           description: state.product.description,
           note: state.product.note,
-          variances
+          variances,
         });
         setModal();
       } else {
@@ -175,15 +151,15 @@ function AddModal({ setModal, edit, editProduct }) {
             (item) => item.id === state.product.subcategory
           ),
           images: [],
-          skuId: state.product.skuId||"",
+          skuId: state.product.skuId || "",
           markedPrice: state.product.mprice,
           sellingPrice: state.product.sprice,
-          highlights: state.product.highlights||[],
+          highlights: state.product.highlights || [],
           sizes: state.sizesOption ? state.product.sizes : [],
           description: state.product.description,
           note: state.product.note,
           sold: false,
-          variances:  [],
+          variances: [],
           status: 1,
           date: new Date(),
         })
@@ -192,42 +168,22 @@ function AddModal({ setModal, edit, editProduct }) {
               state.product.images,
               returnedDoc.id
             );
-              updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
+            updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
               images: images,
             })
               .then(() => {
                 console.log("images added");
               })
               .catch((err) => console.log(err));
-            let arr=[...variances]
-            arr.forEach(async(item,id)=>{
-              arr[id].images=await imageUploader(
-                item.images,
-                returnedDoc.id
-              );
+            let arr = [...variances];
+            arr.forEach(async (item, id) => {
+              arr[id].images = await imageUploader(item.images, returnedDoc.id);
               console.log(arr);
               setVariances(arr);
-              await updateDoc(doc(getFirestore(),"products",returnedDoc.id),{
-                variances:variances
-              }).then(console.log("variances added"))
+              await updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
+                variances: variances,
+              }).then(console.log("variances added"));
             });
-            //  await addDoc(collection(getFirestore(),"variances"),{
-            //     skuId:arr[id].skuId,
-            //     productId:returnedDoc.id,
-            //     sellingPrice:arr[id].sellingPrice,
-            //     markedPrice:arr[id].markedPrice,
-            //     images:arr[id].images,
-            //     sizes:arr[id].sizes
-            //   }).then(async(variant)=>{
-            //     console.log("variance added");
-            //    await getDoc(doc(getFirestore(),"products",returnedDoc.id))
-            //    .then( docc=>{
-            //     updateDoc(doc(getFirestore(), "products", returnedDoc.id), {
-            //         variances:[...docc.data().variances,variant.id]
-            //       }).then(console.log("id added"))
-            //     })
-            //   })
-         
           })
           .catch((err) => console.log(err));
       }
@@ -274,7 +230,259 @@ function AddModal({ setModal, edit, editProduct }) {
     }
   };
   console.log(variances);
-  console.log(state.product)
+  console.log(state.product);
+
+  const DefaultVariant = () => {
+    return (
+      <div className="variance">
+        <h2
+          style={{
+            color: "#fff",
+            marginBottom: 20,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          Default Variant
+        </h2>
+        <div className="innerVariance">
+          <TextField
+            className="input"
+            variant="filled"
+            label="Sku Id"
+            type="text"
+            value={state.product.skuId}
+            name="skuId"
+            onChange={handleChange}
+            size="small"
+            // fullWidth
+            // error={state.err.input === "price"}
+            // helperText={state.err.input === "price" && state.err.msg}
+          />
+          <TextField
+            className="input"
+            variant="filled"
+            label="Product Marked Price"
+            type="number"
+            value={state.product.mprice}
+            name="mprice"
+            onChange={handleChange}
+            size="small"
+            // fullWidth
+            error={state.err.input === "mprice"}
+            helperText={state.err.input === "mprice" && state.err.msg}
+          />
+          <TextField
+            className="input"
+            variant="filled"
+            label="Product Selling Price"
+            type="number"
+            value={state.product.sprice}
+            name="sprice"
+            onChange={handleChange}
+            size="small"
+            // fullWidth
+            error={state.err.input === "sprice"}
+            helperText={state.err.input === "sprice" && state.err.msg}
+          />
+        </div>
+        <div className="bottomPart">
+          <div className="images">
+            <h2 style={{ color: "#fff", marginBottom: 20 }}>Images</h2>
+            <FormHelperText>
+              {state.err.input === "Image Modal" ? state.err.msg : null}
+            </FormHelperText>
+            <div className="images-grid">
+              {state.product.images.map((image) => {
+                console.log(typeof image.image);
+                return (
+                  <div className="image-div" key={image.id}>
+                    <img
+                      src={
+                        typeof image.image === "string"
+                          ? image.image
+                          : URL.createObjectURL(image.image)
+                      }
+                      alt="Product"
+                    />
+                    <div className="remove-hover">
+                      <span
+                        onClick={() =>
+                          setstate((prev) => ({
+                            ...prev,
+                            localImages: prev.localImages.filter(
+                              (img) => img.id !== image.id
+                            ),
+                          }))
+                        }
+                      >
+                        REMOVE
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+              <label className="add-image">
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files[0].size > 300000) {
+                      setstate((prev) => ({
+                        ...prev,
+                        err: {
+                          input: "Image Modal",
+                          msg: "Image size should not exceed 300KB",
+                        },
+                      }));
+                    } else {
+                      setstate((prev) => ({
+                        ...prev,
+                        localImages: [
+                          ...prev.localImages,
+                          {
+                            image: e.target.files[0],
+                            id:
+                              prev.localImages[prev.localImages.length - 1]
+                                ?.id + 1 || 1,
+                          },
+                        ],
+                        err: { input: "", msg: "" },
+                      }));
+                    }
+                  }}
+                />
+                <i className="fa-solid fa-plus"></i>
+              </label>
+            </div>
+          </div>
+          {state.sizesOption ? (
+            <div
+              className="highlights"
+              style={{
+                alignSelf: "flex-start",
+                // overflowY: "auto",
+              }}
+            >
+              Sizes:
+              <FormHelperText>
+                {state.err.input === "sizes" ? state.err.msg : null}
+              </FormHelperText>
+              <div
+                style={{
+                  alignSelf: "flex-start",
+                  // maxHeight: "140px",
+                  overflowY: "auto",
+                }}
+              >
+                {state.product.sizes.map((item, id) => (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      // gridTemplateColumns: "1fr 1fr",
+                      // gridGap: "10px",
+                    }}
+                  >
+                    <span style={{ marginRight: 10 }}>{id + 1}</span>
+                    <TextField
+                      className="input"
+                      variant="filled"
+                      label="Name"
+                      placeholder="Eg:XL"
+                      style={{ marginRight: "10px" }}
+                      size="small"
+                      value={item.name}
+                      onChange={(e) => {
+                        var arr = [...state.product.sizes];
+                        arr[id].name = e.target.value;
+                        setstate({
+                          ...state,
+                          product: { ...state.product, sizes: arr },
+                        });
+                      }}
+                    />
+
+                    <TextField
+                      className="input"
+                      type="number"
+                      variant="filled"
+                      style={{ marginRight: "10px" }}
+                      size="small"
+                      value={item.quantity}
+                      label="Quantity"
+                      onChange={(e) => {
+                        console.log(typeof e.target.value);
+                        var arr = [...state.product.sizes];
+                        arr[id].quantity = parseInt(e.target.value);
+                        setstate({
+                          ...state,
+                          product: { ...state.product, sizes: arr },
+                        });
+                      }}
+                    />
+                    <i
+                      onClick={() => {
+                        var arr = state.product.sizes.filter(
+                          (it, idx) => idx !== id
+                        );
+                        setstate({
+                          ...state,
+                          product: { ...state.product, sizes: arr },
+                        });
+                      }}
+                      className="fa-solid fa-times"
+                    ></i>
+                  </div>
+                ))}
+              </div>
+              <p
+                className="add-p"
+                onClick={() => {
+                  setstate({
+                    ...state,
+                    product: {
+                      ...state.product,
+                      sizes: [
+                        ...state.product.sizes,
+                        { name: "", quantity: null },
+                      ],
+                    },
+                    err: { input: "", msg: "" },
+                  });
+                }}
+              >
+                [ + Add Size]
+              </p>
+              <FormControlLabel
+                // style={{marginLeft:"auto"}}
+                control={
+                  <Checkbox
+                    checked={state.sizesOption}
+                    onChange={() => setstate({ ...state, sizesOption: false })}
+                  />
+                }
+                label="Add Sizes"
+              />
+            </div>
+          ) : (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={state.sizesOption}
+                  onChange={() =>
+                    setstate({ ...state, sizesOption: !state.sizesOption })
+                  }
+                />
+              }
+              label="Add Sizes"
+            />
+          )}
+        </div>
+      </div>
+    );
+  };
   return (
     <div className="Products">
       {state.loading ? (
@@ -282,7 +490,7 @@ function AddModal({ setModal, edit, editProduct }) {
       ) : (
         <div className="addProduct">
           <div className="modal-header">
-            <h5>{edit?"Edit":"Add"} Product</h5>
+            <h5>{edit ? "Edit" : "Add"} Product</h5>
             <span onClick={() => setModal()}>
               <i className="fa-solid fa-times"></i>
             </span>
@@ -681,7 +889,7 @@ function AddModal({ setModal, edit, editProduct }) {
             {state.varianceOption ? (
               <div className="variances">
                 <h2 style={{ color: "#fff" }}>Variances</h2>
-                <FormControlLabel
+                {/* <FormControlLabel
                   style={{ color: "#fff" }}
                   control={
                     <Checkbox
@@ -695,7 +903,8 @@ function AddModal({ setModal, edit, editProduct }) {
                     />
                   }
                   label="Add Variance"
-                />
+                /> */}
+                <DefaultVariant />
                 {variances.map((item, id) => (
                   <div className="variance">
                     <h2
@@ -928,10 +1137,10 @@ function AddModal({ setModal, edit, editProduct }) {
                                 <i
                                   onClick={() => {
                                     var arr = [...variances];
-                                     arr[id].sizes = arr[id].sizes.filter(
+                                    arr[id].sizes = arr[id].sizes.filter(
                                       (it, idxx) => idxx !== idx
                                     );
-                                    setVariances(arr)
+                                    setVariances(arr);
                                   }}
                                   className="fa-solid fa-times"
                                 ></i>
@@ -997,6 +1206,7 @@ function AddModal({ setModal, edit, editProduct }) {
                         sellingPrice: "",
                         sizes: [],
                         sizesOption: false,
+                        id: uuid(),
                       },
                     ]);
                   }}
