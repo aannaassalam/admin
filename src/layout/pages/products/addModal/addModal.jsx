@@ -79,7 +79,7 @@ function AddModal({ setModal, edit, editProduct }) {
   const db = getFirestore();
   const collec = collection(db, "products");
   var obj = state;
-  console.log(state.product.subcategory);
+  // console.log(state.product.subcategory);
   useEffect(() => {
     onSnapshot(doc(db, "settings", "dMsgyXwanQY5tnH075J0"), (doc) => {
       setstate({ ...state, categories: doc.data().categories, loading: false });
@@ -230,7 +230,7 @@ function AddModal({ setModal, edit, editProduct }) {
     }
   };
   console.log(variances);
-  console.log(state.product);
+  // console.log(state.product);
 
   const DefaultVariant = () => {
     return (
@@ -294,7 +294,7 @@ function AddModal({ setModal, edit, editProduct }) {
             </FormHelperText>
             <div className="images-grid">
               {state.product.images.map((image) => {
-                console.log(typeof image.image);
+                // console.log(typeof image.image);
                 return (
                   <div className="image-div" key={image.id}>
                     <img
@@ -322,7 +322,7 @@ function AddModal({ setModal, edit, editProduct }) {
                   </div>
                 );
               })}
-              <label className="add-image">
+              {/* <label className="add-image">
                 <input
                   type="file"
                   style={{ display: "none" }}
@@ -354,7 +354,7 @@ function AddModal({ setModal, edit, editProduct }) {
                   }}
                 />
                 <i className="fa-solid fa-plus"></i>
-              </label>
+              </label> */}
             </div>
           </div>
           {state.sizesOption ? (
@@ -904,7 +904,7 @@ function AddModal({ setModal, edit, editProduct }) {
                   }
                   label="Add Variance"
                 /> */}
-                <DefaultVariant />
+                {/* <DefaultVariant /> */}
                 {variances.map((item, id) => (
                   <div className="variance">
                     <h2
@@ -993,7 +993,7 @@ function AddModal({ setModal, edit, editProduct }) {
                         </FormHelperText>
                         <div className="images-grid">
                           {item.images.map((image) => {
-                            console.log(typeof image.image);
+                            // console.log(typeof image.image);
                             return (
                               <div className="image-div" key={image.id}>
                                 <img
