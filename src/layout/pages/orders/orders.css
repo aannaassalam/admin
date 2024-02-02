@@ -91,13 +91,19 @@
   margin-bottom: 10px;
   font-size: 15px;
   font-weight: 500;
-  text-decoration: none;
+  text-decoration: underline;
 }
 .orders .table .orderItem {
   /* margin: 10px 0; */
+  display: flex;
+  align-items: center;
+}
+.orders .table .orderItem > div {
+  /* margin: 10px 0; */
+  width: 100%;
   display: grid;
-  grid-template-columns: 40% repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   padding: 20px 0;
   border-bottom: 1px dashed rgb(212, 211, 211);
 }
@@ -106,7 +112,8 @@
 }
 
 .orders .table .orderItem p span {
-  margin-bottom: 3px;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 .orders .table .buttons button {
   all: unset;

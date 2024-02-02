@@ -76,8 +76,8 @@ function Orders() {
                       <h4>Shipping Address</h4>
                       <div>
                         <p>
-                          <div className="col-p">
-                            Address 1: {item.shipping_address.address1} ,{" "}
+                          <div>
+                            Address 1 : {item.shipping_address.address1} ,{" "}
                           </div>
                           <p className="col-p">
                             <span>City</span>
@@ -92,14 +92,14 @@ function Orders() {
                             {item.shipping_address.zipcode}
                           </p>
                         </p>
-                        <p> Address 2: {item.shipping_address.address2}</p>
+                        <p> Address 2 : {item.shipping_address.address2}</p>
                       </div>
                     </div>
                     <div>
                       <h4>Billing Address</h4>
                       <div>
                         <p>
-                          Address 1 :{item.billing_address.address1}{" "}
+                          Address 1 : {item.billing_address.address1}{" "}
                           <p className="col-p">
                             <span>City</span>
                             {item.billing_address.city}{" "}
@@ -120,32 +120,48 @@ function Orders() {
                   <h4>Order Items</h4>
                   {item.items.map((prod) => (
                     <div className="orderItem">
-                      <p className="col-p">
-                        <span>Product Name</span>
-                        <a
-                          href={`https://nutuyu72.web.app/product/${prod.id}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{ textDecoration: "underline" }}
-                        >
-                          {prod.name}
-                        </a>
-                      </p>
-                      <p className="col-p">
-                        <span>Product Category</span>
-                        {prod.category}
-                      </p>
-                      <p className="col-p">
-                        <span>Product SubCategory</span>
-                        {prod.subcategory.name}
-                      </p>{" "}
-                      <p className="col-p">
-                        <span>Product Type</span>
-                        {prod.subcategory.type && prod.subcategory.type}
-                      </p>
-                      <p className="col-p">
-                        <span>Product Price</span>${prod.price}
-                      </p>
+                      <img
+                        src={prod.variance?.images[0]?.image}
+                        alt=""
+                        style={{ height: 150, margin: "15px 15px 15px 0" }}
+                      />
+                      <div>
+                        <p className="col-p">
+                          <span>Product Name</span>
+                          <a
+                            href={`https://nutuyu72.web.app/product/${prod.productId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{ textDecoration: "underline" }}
+                          >
+                            {prod.name}
+                          </a>
+                        </p>
+                        <p className="col-p">
+                          <span>Product Category</span>
+                          {prod.category}
+                        </p>
+                        <p className="col-p">
+                          <span>Product SubCategory</span>
+                          {prod.subCategory.name}
+                        </p>
+                        <p className="col-p">
+                          <span>Product Type</span>
+                          {prod.subCategory.type && prod.subCategory.type}
+                        </p>
+                        <p className="col-p">
+                          <span>Product Quantity</span>
+                          {prod.quantity}
+                        </p>
+                        <p className="col-p">
+                          <span>Product Size</span>
+                          {prod.size}
+                        </p>
+                        <p className="col-p">
+                          <span>Product Price</span>$
+                          {prod.variance.sellingPrice}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </AccordionDetails>
