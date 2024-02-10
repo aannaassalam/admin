@@ -47,8 +47,171 @@
 .dashboard .bottom .charts .chartContainer {
   height: 300px;
   width: 100%;
+  margin-bottom: 100px;
 }
 .dashboard .bottom .charts .chartHeading {
   margin-left: 25px;
   margin-bottom: 10px;
 }
+.dashboard .apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e350;
+  background-color: #2a2b36;
+}
+.dashboard .apexcharts-tooltip-title {
+  background-color: #2a2b36 !important;
+  border-bottom: 1px solid #e3e3e350 !important;
+}
+.dashboard .apexcharts-menu-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg {
+  fill: #b2b2b2 !important;
+}
+.dashboard .apexcharts-menu {
+  background: #2a2b36;
+  top: 30px;
+  right: 5px;
+}
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #acacac !important;
+}
+.dashboard .apexcharts-yaxis-label {
+  color: #fff !important;
+}
+#SvgjsTspan1253 {
+  color: #fff !important;
+}
+/* 
+// const Linechart = () => {
+//   const data = [
+//     {
+//       name: "January",
+//       CurrentYear: 4000,
+//       LastYear: 2400,
+//     },
+//     {
+//       name: "Feburary",
+//       CurrentYear: 3000,
+//       LastYear: 1398,
+//     },
+//     {
+//       name: "March",
+//       CurrentYear: 2000,
+//       LastYear: 9800,
+//     },
+//     {
+//       name: "April",
+//       CurrentYear: 2780,
+//       LastYear: 3908,
+//     },
+//     {
+//       name: "May",
+//       CurrentYear: 1890,
+//       LastYear: 4800,
+//     },
+//     {
+//       name: "June",
+//       CurrentYear: 2390,
+//       LastYear: 3800,
+//     },
+//   ];
+//   return (
+//     <div className="chartContainer">
+//       <h3 className="chartHeading">Sales Comparison</h3>
+//       <ResponsiveContainer width="90%" height="100%">
+//         <LineChart
+//           width={500}
+//           height={300}
+//           data={data}
+//           margin={{
+//             top: 5,
+//             right: 30,
+//             left: 20,
+//             bottom: 5,
+//           }}
+//         >
+//           <CartesianGrid strokeDasharray="3 3" />
+//           <XAxis dataKey="name" />
+//           <YAxis />
+//           <Tooltip />
+//           <Legend />
+//           <Line
+//             type="monotone"
+//             dataKey="LastYear"
+//             stroke="#8884d8"
+//             activeDot={{ r: 8 }}
+//           />
+//           <Line type="monotone" dataKey="CurrentYear" stroke="#82ca9d" />
+//         </LineChart>
+//       </ResponsiveContainer>
+//     </div>
+//   );
+// };
+// const Barchart = () => {
+//   const data = [
+//     {
+//       name: "January",
+//       CurrentYear: 4000,
+//       LastYear: 2400,
+//       amt: 2400,
+//     },
+//     {
+//       name: "Feburary",
+//       CurrentYear: 3000,
+//       LastYear: 1398,
+//       amt: 2210,
+//     },
+//     {
+//       name: "March",
+//       CurrentYear: 2000,
+//       LastYear: 9800,
+//       amt: 2290,
+//     },
+//     {
+//       name: "April",
+//       CurrentYear: 2780,
+//       LastYear: 3908,
+//       amt: 2000,
+//     },
+//     {
+//       name: "May",
+//       CurrentYear: 1890,
+//       LastYear: 4800,
+//       amt: 2181,
+//     },
+//     {
+//       name: "June",
+//       CurrentYear: 2390,
+//       LastYear: 3800,
+//       amt: 2500,
+//     },
+//   ];
+//   return (
+//     <div className="chartContainer" style={{ margin: "70px 0" }}>
+//       <h3 className="chartHeading">Total Revenue</h3>
+//       <ResponsiveContainer width="100%" height="100%">
+//         <BarChart
+//           width={500}
+//           height={300}
+//           data={data}
+//           margin={{
+//             top: 20,
+//             right: 30,
+//             left: 20,
+//             bottom: 5,
+//           }}
+//         >
+//           <CartesianGrid strokeDasharray="3 3" />
+//           <XAxis dataKey="name" />
+//           <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+//           <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+//           <Tooltip />
+//           <Legend />
+//           <Bar yAxisId="left" dataKey="LastYear" fill="#8884d8" />
+//           <Bar yAxisId="right" dataKey="CurrentYear" fill="#82ca9d" />
+//         </BarChart>
+//       </ResponsiveContainer>
+//     </div>
+//   );
+// }; */

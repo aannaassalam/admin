@@ -10,9 +10,11 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link, Navigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import Invoice from "../../components/invoice/invoice";
 function Orders() {
   const [state, setstate] = useState({
     orders: [],
+    viewInvoice: true,
   });
   const db = getFirestore();
   const collectionRef = collection(db, "orders");
@@ -164,6 +166,20 @@ function Orders() {
                       </div>
                     </div>
                   ))}
+                  <button
+                    onClick={() => setstate({ ...state, viewInvoice: true })}
+                    className="invoiceButton"
+                  >
+                    View Invoice
+                  </button>
+                  {state.viewInvoice && (
+                    <Invoice
+                      order={item}
+                      setState={() =>
+                        setstate({ ...state, viewInvoice: !state.viewInvoice })
+                      }
+                    />
+                  )}
                 </AccordionDetails>
               </Accordion>
             );

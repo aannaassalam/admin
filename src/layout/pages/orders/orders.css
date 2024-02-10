@@ -129,3 +129,15 @@
 .orders .table .buttons button:last-child {
   background-color: #c77171;
 }
+.invoiceButton {
+  all: unset;
+  background-color: #9d97d6;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #121212;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  margin: 15px 0;
+  margin-left: auto;
+}
